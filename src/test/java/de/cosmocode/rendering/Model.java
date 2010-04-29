@@ -17,7 +17,7 @@
 package de.cosmocode.rendering;
 
 /**
- * 
+ * Simple renderable model.
  *
  * @author Willi Schoenborn
  */
@@ -45,21 +45,21 @@ public class Model implements Renderable {
     
     @Override
     public void render(Renderer renderer, RenderingLevel level) throws RenderingException {
-        if (level.ge(Level.S)) {
-            
-        }
-        if (level.ge(Level.M)) {
-            
-        }
-        if (level.ge(Level.L)) {
-            
-        }
-        if (level.ge(Level.XL)) {
-            
-        }
-        if (level.ge(Level.XXL)) {
-            
-        }
+//        if (level.ge(Level.S)) {
+//            
+//        }
+//        if (level.ge(Level.M)) {
+//            
+//        }
+//        if (level.ge(Level.L)) {
+//            
+//        }
+//        if (level.ge(Level.XL)) {
+//            
+//        }
+//        if (level.ge(Level.XXL)) {
+//            
+//        }
     }
 
 }

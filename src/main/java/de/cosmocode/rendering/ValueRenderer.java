@@ -16,21 +16,27 @@
 
 package de.cosmocode.rendering;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
- * 
+ * A value renderer can be used to render arbitary values in a {@link Renderer}
+ * in several different ways without the need to decorate them with {@link Renderable}. 
  *
  * @author Willi Schoenborn
- * @param <T>
+ * @param <T> the generic value type
  */
 public interface ValueRenderer<T> {
 
     /**
+     * Adds the specified value to the given renderer by using
+     * the semantics of this value renderer.
      * 
-     * 
-     * @param value
-     * @param renderer
-     * @throws RenderingException
+     * @param value the value being added
+     * @param renderer the renderer receiving the value
+     * @throws RenderingException if adding the value to the renderer failed
+     * @throws NullPointerException if renderer is null
      */
-    void render(T value, Renderer renderer) throws RenderingException;
+    void render(@Nullable T value, @Nonnull Renderer renderer) throws RenderingException;
     
 }

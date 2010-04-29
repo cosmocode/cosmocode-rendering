@@ -16,24 +16,33 @@
 
 package de.cosmocode.rendering;
 
+import org.junit.Test;
+
+import de.cosmocode.junit.UnitProvider;
+
 /**
- * Custom object may implement this interface to change the 
- * default rendering behaviour of {@link Renderer}s when
- * attempting to render instances of that type.
+ * Abstract test for {@link Renderer}.
  *
  * @author Willi Schoenborn
  */
-public interface Renderable {
+public abstract class AbstractRendererTest implements UnitProvider<Renderer> {
 
     /**
-     * Renders this instance using the specified renderer. The implementation
-     * may decide to make use of the supplied level which allows
-     * providing different behaviours when rendering this object.
-     * 
-     * @param renderer the renderer being used
-     * @param level the current level
-     * @throws RenderingException if any method on renderer failed
+     * Tests {@link Renderer#key(CharSequence)} with null.
      */
-    void render(Renderer renderer, RenderingLevel level) throws RenderingException;
+    @Test
+    public void keyCharSequenceNull() {
+        final CharSequence sequence = null;
+        unit().map().key(sequence);
+    }
     
+    /**
+     * Tests {@link Renderer#key(Object))} with null.
+     */
+    @Test
+    public void keyObjectNull() {
+        final Object key = null;
+        unit().map().key(key);
+    }
+
 }

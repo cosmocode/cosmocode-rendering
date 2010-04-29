@@ -49,7 +49,7 @@ public enum Level implements RenderingLevel {
     
     @Override
     public boolean gt(RenderingLevel level) {
-        return this.compareTo(Level.class.cast(level)) > 0;
+        return compareTo(Level.class.cast(level)) > 0;
     }
     
 }

@@ -17,23 +17,15 @@
 package de.cosmocode.rendering;
 
 /**
- * Custom object may implement this interface to change the 
- * default rendering behaviour of {@link Renderer}s when
- * attempting to render instances of that type.
+ * Tests {@link CollectionRenderer}.
  *
  * @author Willi Schoenborn
  */
-public interface Renderable {
+public final class CollectionRendererTest extends AbstractRendererTest {
 
-    /**
-     * Renders this instance using the specified renderer. The implementation
-     * may decide to make use of the supplied level which allows
-     * providing different behaviours when rendering this object.
-     * 
-     * @param renderer the renderer being used
-     * @param level the current level
-     * @throws RenderingException if any method on renderer failed
-     */
-    void render(Renderer renderer, RenderingLevel level) throws RenderingException;
+    @Override
+    public CollectionRenderer unit() {
+        return new CollectionRenderer();
+    }
     
 }
