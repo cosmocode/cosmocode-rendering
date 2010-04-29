@@ -26,7 +26,7 @@ import com.google.common.base.Preconditions;
  *
  * @author Willi Schoenborn
  */
-public final class DefaultListRenderer extends ForwardingRenderer {
+public final class DefaultListRenderer extends ForwardingRenderer implements ListRenderer {
 
     private final Renderer renderer;
     

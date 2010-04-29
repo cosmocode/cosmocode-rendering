@@ -16,16 +16,16 @@
 
 package de.cosmocode.rendering;
 
+import java.util.Map;
+
 /**
- * Tests reference type value methods in {@link CollectionRenderer}.
+ * A {@link Renderer} which produces {@link Map}s.
  *
  * @author Willi Schoenborn
  */
-public final class CollectionsRendererReferenceValueTest extends AbstractRendererReferenceValueTest {
+public interface MapRenderer extends Renderer {
 
     @Override
-    public Renderer unit() {
-        return new CollectionRenderer();
-    }
-
+    Map<String, Object> build() throws RenderingException;
+    
 }

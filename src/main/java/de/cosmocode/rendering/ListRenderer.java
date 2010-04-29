@@ -16,16 +16,16 @@
 
 package de.cosmocode.rendering;
 
+import java.util.List;
+
 /**
- * Tests reference type value methods in {@link CollectionRenderer}.
+ * A {@link Renderer} which produces {@link List}s.
  *
  * @author Willi Schoenborn
  */
-public final class CollectionsRendererReferenceValueTest extends AbstractRendererReferenceValueTest {
+public interface ListRenderer extends Renderer {
 
     @Override
-    public Renderer unit() {
-        return new CollectionRenderer();
-    }
-
+    List<Object> build() throws RenderingException;
+    
 }

@@ -26,7 +26,7 @@ import com.google.common.base.Preconditions;
  *
  * @author Willi Schoenborn
  */
-public final class DefaultMapRenderer extends ForwardingRenderer {
+public final class DefaultMapRenderer extends ForwardingRenderer implements MapRenderer {
 
     private final Renderer renderer;
     
