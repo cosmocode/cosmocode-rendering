@@ -189,7 +189,7 @@ public interface Renderer extends Builder<Object> {
     Renderer value(@Nullable Calendar value) throws RenderingException;
     
     /**
-     * Adds the specified value by converting it into a unix timestamp.
+     * Adds the specified value by converting it into String using {@link Enum#name()}.
      * 
      * @param value the value being added
      * @return this
