@@ -16,36 +16,36 @@
 
 package de.cosmocode.rendering;
 
-import java.util.Map;
+import java.util.List;
 
 import com.google.common.base.Preconditions;
 
 /**
- * A decorator for {@link CollectionRenderer} which assumes
- * the constructed object is a {@link Map}.
+ * A decorator for {@link Renderer} which assumes
+ * the constructed object is a {@link List}.
  *
  * @author Willi Schoenborn
  */
-public final class MapRenderer extends ForwardingRenderer {
+public final class DefaultListRenderer extends ForwardingRenderer {
 
-    private final CollectionRenderer renderer;
+    private final Renderer renderer;
     
-    public MapRenderer(CollectionRenderer renderer) {
+    public DefaultListRenderer(Renderer renderer) {
         this.renderer = Preconditions.checkNotNull(renderer, "Renderer");
     }
 
     @Override
-    protected CollectionRenderer delegate() {
+    protected Renderer delegate() {
         return renderer;
     }
     
     @Override
-    public Map<String, Object> build() throws RenderingException {
+    public List<Object> build() throws RenderingException {
         final Object built = super.build();
-        assert built instanceof Map<?, ?>;
+        assert built instanceof List<?>;
         @SuppressWarnings("unchecked")
-        final Map<String, Object> map = Map.class.cast(built);
-        return map;
+        final List<Object> list = List.class.cast(built);
+        return list;
     }
 
 }
