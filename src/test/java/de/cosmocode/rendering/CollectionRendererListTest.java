@@ -16,33 +16,16 @@
 
 package de.cosmocode.rendering;
 
-import org.junit.Test;
-
-import de.cosmocode.junit.UnitProvider;
-
 /**
- * Abstract test for {@link Renderer}.
+ * Tests {@link CollectionRenderer}.
  *
  * @author Willi Schoenborn
  */
-public abstract class AbstractRendererTest implements UnitProvider<Renderer> {
+public final class CollectionRendererListTest extends AbstractRendererListTest {
 
-    /**
-     * Tests {@link Renderer#key(CharSequence)} with null.
-     */
-    @Test
-    public void keyCharSequenceNull() {
-        final CharSequence sequence = null;
-        unit().map().key(sequence);
+    @Override
+    public CollectionRenderer unit() {
+        return new CollectionRenderer();
     }
     
-    /**
-     * Tests {@link Renderer#key(Object))} with null.
-     */
-    @Test
-    public void keyObjectNull() {
-        final Object key = null;
-        unit().map().key(key);
-    }
-
 }

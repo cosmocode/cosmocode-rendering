@@ -54,7 +54,7 @@ public final class CollectionRenderer extends AbstractRenderer {
     }
     
     private LinkedMap peekMap() {
-        if (mode == Mode.MAP) {
+        if (mode == Mode.MAP || mode == Mode.KEY) {
             final Object peek = stack.element();
             assert peek instanceof LinkedMap;
             return LinkedMap.class.cast(peek);
@@ -158,7 +158,7 @@ public final class CollectionRenderer extends AbstractRenderer {
     @Override
     public Renderer key(CharSequence key) throws RenderingException {
         if (Mode.KEY.isAllowedAfter(mode)) {
-            peekMap().put(key, null);
+            peekMap().put(key == null ? null : key.toString(), null);
             mode = Mode.KEY;
             return this;
         } else {

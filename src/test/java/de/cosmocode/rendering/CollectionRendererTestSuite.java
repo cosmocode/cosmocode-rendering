@@ -16,16 +16,23 @@
 
 package de.cosmocode.rendering;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
 /**
- * Tests {@link CollectionRenderer}.
+ * Test suite for {@link CollectionRenderer}.
  *
  * @author Willi Schoenborn
  */
-public final class CollectionRendererTest extends AbstractRendererTest {
-
-    @Override
-    public CollectionRenderer unit() {
-        return new CollectionRenderer();
-    }
+@RunWith(Suite.class)
+@SuiteClasses({
+    CollectionRendererKeyTest.class,
+    CollectionRendererListTest.class,
+    CollectionRendererMapTest.class,
+    CollectionRendererPrimitiveValueTest.class,
+    CollectionsRendererReferenceValueTest.class
+})
+public final class CollectionRendererTestSuite {
     
 }
