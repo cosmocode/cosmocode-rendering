@@ -90,7 +90,8 @@ public abstract class AbstractRendererObjectValueRendererTest implements UnitPro
      */
     @Test
     public void valueObjectRendererComplexInitial() {
-        unit().value(Maps.newHashMap(), Rendering.defaultValueRenderer());
+        final Object value = Maps.newHashMap();
+        unit().value(value, Rendering.defaultValueRenderer());
     }
 
     /**
