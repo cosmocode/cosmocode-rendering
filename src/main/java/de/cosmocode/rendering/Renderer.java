@@ -141,7 +141,7 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if the given value is not allowed at the current position
      * @throws NullPointerException if renderer is null
      */
-    <T> Renderer value(@Nullable T value, @Nonnull ValueRenderer<T> renderer) throws RenderingException;
+    <T> Renderer value(@Nullable T value, @Nonnull ValueRenderer<? super T> renderer) throws RenderingException;
     
     /**
      * Adds the specified value.
@@ -171,7 +171,7 @@ public interface Renderer extends Builder<Object> {
     Renderer value(double value) throws RenderingException;
 
     /**
-     * Adds the specified value by converting it into a unix timestamp.
+     * Adds the specified value.
      * 
      * @param value the value being added
      * @return this
@@ -180,7 +180,7 @@ public interface Renderer extends Builder<Object> {
     Renderer value(@Nullable Date value) throws RenderingException;
 
     /**
-     * Adds the specified value by converting it into a unix timestamp.
+     * Adds the specified value.
      * 
      * @param value the value being added
      * @return this
@@ -189,7 +189,7 @@ public interface Renderer extends Builder<Object> {
     Renderer value(@Nullable Calendar value) throws RenderingException;
     
     /**
-     * Adds the specified value by converting it into String using {@link Enum#name()}.
+     * Adds the specified value.
      * 
      * @param value the value being added
      * @return this
@@ -237,7 +237,8 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if no values are allowed at the current position
      * @throws NullPointerException if values or renderer is null
      */
-    <T> Renderer values(@Nonnull Iterable<T> values, @Nonnull ValueRenderer<T> renderer) throws RenderingException;
+    <T> Renderer values(@Nonnull Iterable<T> values, @Nonnull ValueRenderer<? super T> renderer) 
+        throws RenderingException;
     
     /**
      * Adds the specified values.
@@ -260,7 +261,8 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if no values are allowed at the current position
      * @throws NullPointerException if values or renderer is null
      */
-    <T> Renderer values(@Nonnull Iterator<T> values, @Nonnull ValueRenderer<T> renderer) throws RenderingException;
+    <T> Renderer values(@Nonnull Iterator<T> values, @Nonnull ValueRenderer<? super T> renderer) 
+        throws RenderingException;
     
     /**
      * Add the specified values as a list. This is equivalent to:
@@ -295,7 +297,8 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if list is not allowed at the current position.
      * @throws NullPointerException if values or renderer is null
      */
-    <T> Renderer value(@Nonnull Iterable<T> values, @Nonnull ValueRenderer<T> renderer) throws RenderingException;
+    <T> Renderer value(@Nonnull Iterable<T> values, @Nonnull ValueRenderer<? super T> renderer) 
+        throws RenderingException;
 
     /**
      * Add the specified values as a list. This is equivalent to:
@@ -319,7 +322,8 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if list is not allowed at the current position.
      * @throws NullPointerException if values or renderer is null
      */
-    <T> Renderer value(@Nonnull Iterator<T> values, @Nonnull ValueRenderer<T> renderer) throws RenderingException;
+    <T> Renderer value(@Nonnull Iterator<T> values, @Nonnull ValueRenderer<? super T> renderer) 
+        throws RenderingException;
     
     /**
      * Adds the specified pairs. Pairs a basically a sequence of
@@ -343,7 +347,8 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if no pairs are allowed at the current position
      * @throws NullPointerException if pairs or renderer is null
      */
-    <T> Renderer pairs(@Nonnull Map<?, T> pairs, @Nonnull ValueRenderer<T> renderer) throws RenderingException;
+    <T> Renderer pairs(@Nonnull Map<?, T> pairs, @Nonnull ValueRenderer<? super T> renderer) 
+        throws RenderingException;
     
     /**
      * Adds the specified pairs by passing control to {@link Renderable#render(Renderer, RenderingLevel)}
@@ -380,7 +385,8 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if map is not allowed at the current position
      * @throws NullPointerException if pairs or renderer is null
      */
-    <T> Renderer value(@Nonnull Map<?, T> pairs, @Nonnull ValueRenderer<T> renderer) throws RenderingException;
+    <T> Renderer value(@Nonnull Map<?, T> pairs, @Nonnull ValueRenderer<? super T> renderer) 
+        throws RenderingException;
     
     /**
      * Adds the specified pairs by passing control to {@link Renderable#render(Renderer, RenderingLevel)}

@@ -28,11 +28,42 @@ import com.google.common.collect.Multimap;
 
 /**
  * Abstract base implementation of the {@link Renderer} interface.
+ * 
+ * <p>
+ *   Implementation note: Enums are added using their {@link Enum#name()} method.
+ *   {@link Date} and {@link Calendar} will converted to unix timestamps (seconds).
+ * </p>
  *
  * @author Willi Schoenborn
  */
 public abstract class AbstractRenderer implements Renderer {
 
+    private static final ValueRenderer<Enum<?>> ENUM_RENDERER = new ValueRenderer<Enum<?>>() {
+        
+        @Override
+        public void render(Enum<?> value, Renderer renderer) throws RenderingException {
+            if (value == null) {
+                renderer.nullValue();
+            } else {
+                renderer.value(value.name()); 
+            }
+        }
+
+    };
+    
+    private static final ValueRenderer<Date> DATE_RENDERER = new ValueRenderer<Date>() {
+        
+        @Override
+        public void render(Date value, Renderer renderer) throws RenderingException {
+            if (value == null) {
+                renderer.nullValue();
+            } else {
+                renderer.value(value.getTime() / 1000); 
+            }
+        }
+        
+    };
+    
     @Override
     public Renderer key(Object key) throws RenderingException {
         return key(key == null ? null : key.toString());
@@ -130,7 +161,7 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer value(T value, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer value(T value, ValueRenderer<? super T> renderer) throws RenderingException {
         Preconditions.checkNotNull(renderer, "Renderer");
         renderer.render(value, this);
         return this;
@@ -138,9 +169,14 @@ public abstract class AbstractRenderer implements Renderer {
     
     @Override
     public Renderer value(Date value) throws RenderingException {
-        return value == null ? nullValue() : value(value.getTime() / 1000);
+        return value(value, DATE_RENDERER);
     }
     
+    /**
+     * Using the method is equivalent to:
+     * {@code renderer.value(calendar.getTime())}.
+     * {@inheritDoc}
+     */
     @Override
     public Renderer value(Calendar value) throws RenderingException {
         return value == null ? nullValue() : value(value.getTime());
@@ -148,7 +184,7 @@ public abstract class AbstractRenderer implements Renderer {
     
     @Override
     public Renderer value(Enum<?> value) throws RenderingException {
-        return value == null ? nullValue() : value(value.name());
+        return value(value, ENUM_RENDERER);
     }
     
     @Override
@@ -164,7 +200,7 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer values(Iterable<T> values, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer values(Iterable<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
         Preconditions.checkNotNull(renderer, "Renderer");
         return values(values.iterator(), renderer);
@@ -180,7 +216,7 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer values(Iterator<T> values, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer values(Iterator<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
         Preconditions.checkNotNull(renderer, "Renderer");
         while (values.hasNext()) {
@@ -202,7 +238,7 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer value(Iterable<T> values, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer value(Iterable<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
         Preconditions.checkNotNull(renderer, "Renderer");
         return value(values.iterator(), renderer);
@@ -211,17 +247,14 @@ public abstract class AbstractRenderer implements Renderer {
     @Override
     public Renderer value(Iterator<?> values) throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
-        return list().value(values).endList();
+        return list().values(values).endList();
     }
     
     @Override
-    public <T> Renderer value(Iterator<T> values, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer value(Iterator<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
         Preconditions.checkNotNull(renderer, "Renderer");
-        while (values.hasNext()) {
-            renderer.render(values.next(), this);
-        }
-        return this;
+        return list().values(values, renderer).endList();
     }
     
     @Override
@@ -234,7 +267,7 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer pairs(Map<?, T> pairs, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer pairs(Map<?, T> pairs, ValueRenderer<? super T> renderer) throws RenderingException {
         Preconditions.checkNotNull(pairs, "Pairs");
         Preconditions.checkNotNull(renderer, "Renderer");
         for (Entry<?, T> entry : pairs.entrySet()) {
@@ -259,7 +292,7 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer value(Map<?, T> pairs, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer value(Map<?, T> pairs, ValueRenderer<? super T> renderer) throws RenderingException {
         Preconditions.checkNotNull(pairs, "Pairs");
         Preconditions.checkNotNull(renderer, "Renderer");
         return map().pairs(pairs, renderer).endMap();

@@ -30,9 +30,11 @@ import org.junit.runners.Suite.SuiteClasses;
     CollectionRendererKeyTest.class,
     CollectionRendererListTest.class,
     CollectionRendererMapTest.class,
+    CollectionRendererObjectValueRendererTest.class,
     CollectionRendererPrimitiveValueTest.class,
-    CollectionsRendererReferenceValueTest.class
+    CollectionsRendererReferenceValueTest.class,
+    ConnectionRendererObjectValueTest.class
 })
-public final class CollectionRendererTestSuite {
+public final class CollectionRendererAllTestSuite {
     
 }

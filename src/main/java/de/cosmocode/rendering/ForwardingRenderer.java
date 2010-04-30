@@ -79,7 +79,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public <T> Renderer pairs(Map<?, T> pairs, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer pairs(Map<?, T> pairs, ValueRenderer<? super T> renderer) throws RenderingException {
         return delegate().pairs(pairs, renderer);
     }
 
@@ -124,7 +124,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public <T> Renderer value(Iterable<T> values, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer value(Iterable<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
         return delegate().value(values, renderer);
     }
 
@@ -134,7 +134,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public <T> Renderer value(Iterator<T> values, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer value(Iterator<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
         return delegate().value(values, renderer);
     }
 
@@ -149,7 +149,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public <T> Renderer value(Map<?, T> pairs, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer value(Map<?, T> pairs, ValueRenderer<? super T> renderer) throws RenderingException {
         return delegate().value(pairs, renderer);
     }
 
@@ -169,7 +169,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public <T> Renderer value(T value, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer value(T value, ValueRenderer<? super T> renderer) throws RenderingException {
         return delegate().value(value, renderer);
     }
 
@@ -179,7 +179,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public <T> Renderer values(Iterable<T> values, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer values(Iterable<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
         return delegate().values(values, renderer);
     }
 
@@ -189,7 +189,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public <T> Renderer values(Iterator<T> values, ValueRenderer<T> renderer) throws RenderingException {
+    public <T> Renderer values(Iterator<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
         return delegate().values(values, renderer);
     }
 

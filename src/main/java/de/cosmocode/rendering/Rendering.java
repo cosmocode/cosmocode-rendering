@@ -129,5 +129,32 @@ public final class Rendering {
         }
         
     }
+    
+    /**
+     * Creates a value renderer for type t which enforces the default behaviour
+     * of unknown value type rendering by delegating to {@link Renderer#value(Object)}.
+     * 
+     * @param <T> the generic value type
+     * @return a value renderer which delegates back to the renderer
+     */
+    public static <T> ValueRenderer<T> defaultValueRenderer() {
+        return new DefaultValueRenderer<T>();
+    }
+    
+    /**
+     * Implementation of the {@link ValueRenderer} interface which delegates
+     * back to the renderer.
+     *
+     * @author Willi Schoenborn
+     * @param <T> the generic value type
+     */
+    private static final class DefaultValueRenderer<T> implements ValueRenderer<T> {
+        
+        @Override
+        public void render(T value, Renderer renderer) throws RenderingException {
+            renderer.value(value);
+        };
+        
+    }
 
 }

@@ -32,6 +32,11 @@ public interface ValueRenderer<T> {
      * Adds the specified value to the given renderer by using
      * the semantics of this value renderer.
      * 
+     * <p>
+     *   Note: The given value must be rendered as a value according
+     *   the grammar in {@link Renderer}.
+     * </p>
+     * 
      * @param value the value being added
      * @param renderer the renderer receiving the value
      * @throws RenderingException if adding the value to the renderer failed
