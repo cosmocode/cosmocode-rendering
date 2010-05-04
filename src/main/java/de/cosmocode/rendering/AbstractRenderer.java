@@ -200,7 +200,8 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer values(Iterable<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
+    public <T> Renderer values(Iterable<? extends T> values, ValueRenderer<? super T> renderer) 
+        throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
         Preconditions.checkNotNull(renderer, "Renderer");
         return values(values.iterator(), renderer);
@@ -216,7 +217,8 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer values(Iterator<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
+    public <T> Renderer values(Iterator<? extends T> values, ValueRenderer<? super T> renderer) 
+        throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
         Preconditions.checkNotNull(renderer, "Renderer");
         while (values.hasNext()) {
@@ -238,7 +240,8 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer value(Iterable<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
+    public <T> Renderer value(Iterable<? extends T> values, ValueRenderer<? super T> renderer) 
+        throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
         Preconditions.checkNotNull(renderer, "Renderer");
         return value(values.iterator(), renderer);
@@ -251,7 +254,8 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer value(Iterator<T> values, ValueRenderer<? super T> renderer) throws RenderingException {
+    public <T> Renderer value(Iterator<? extends T> values, ValueRenderer<? super T> renderer) 
+        throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
         Preconditions.checkNotNull(renderer, "Renderer");
         return list().values(values, renderer).endList();
@@ -267,10 +271,11 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer pairs(Map<?, T> pairs, ValueRenderer<? super T> renderer) throws RenderingException {
+    public <T> Renderer pairs(Map<?, ? extends T> pairs, ValueRenderer<? super T> renderer) 
+        throws RenderingException {
         Preconditions.checkNotNull(pairs, "Pairs");
         Preconditions.checkNotNull(renderer, "Renderer");
-        for (Entry<?, T> entry : pairs.entrySet()) {
+        for (Entry<?, ? extends T> entry : pairs.entrySet()) {
             key(entry.getKey());
             renderer.render(entry.getValue(), this);
         }
@@ -292,7 +297,8 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer value(Map<?, T> pairs, ValueRenderer<? super T> renderer) throws RenderingException {
+    public <T> Renderer value(Map<?, ? extends T> pairs, ValueRenderer<? super T> renderer) 
+        throws RenderingException {
         Preconditions.checkNotNull(pairs, "Pairs");
         Preconditions.checkNotNull(renderer, "Renderer");
         return map().pairs(pairs, renderer).endMap();

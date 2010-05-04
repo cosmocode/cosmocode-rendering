@@ -237,7 +237,7 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if no values are allowed at the current position
      * @throws NullPointerException if values or renderer is null
      */
-    <T> Renderer values(@Nonnull Iterable<T> values, @Nonnull ValueRenderer<? super T> renderer) 
+    <T> Renderer values(@Nonnull Iterable<? extends T> values, @Nonnull ValueRenderer<? super T> renderer) 
         throws RenderingException;
     
     /**
@@ -261,7 +261,7 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if no values are allowed at the current position
      * @throws NullPointerException if values or renderer is null
      */
-    <T> Renderer values(@Nonnull Iterator<T> values, @Nonnull ValueRenderer<? super T> renderer) 
+    <T> Renderer values(@Nonnull Iterator<? extends T> values, @Nonnull ValueRenderer<? super T> renderer) 
         throws RenderingException;
     
     /**
@@ -297,7 +297,7 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if list is not allowed at the current position.
      * @throws NullPointerException if values or renderer is null
      */
-    <T> Renderer value(@Nonnull Iterable<T> values, @Nonnull ValueRenderer<? super T> renderer) 
+    <T> Renderer value(@Nonnull Iterable<? extends T> values, @Nonnull ValueRenderer<? super T> renderer) 
         throws RenderingException;
 
     /**
@@ -322,7 +322,7 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if list is not allowed at the current position.
      * @throws NullPointerException if values or renderer is null
      */
-    <T> Renderer value(@Nonnull Iterator<T> values, @Nonnull ValueRenderer<? super T> renderer) 
+    <T> Renderer value(@Nonnull Iterator<? extends T> values, @Nonnull ValueRenderer<? super T> renderer) 
         throws RenderingException;
     
     /**
@@ -347,7 +347,7 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if no pairs are allowed at the current position
      * @throws NullPointerException if pairs or renderer is null
      */
-    <T> Renderer pairs(@Nonnull Map<?, T> pairs, @Nonnull ValueRenderer<? super T> renderer) 
+    <T> Renderer pairs(@Nonnull Map<?, ? extends T> pairs, @Nonnull ValueRenderer<? super T> renderer) 
         throws RenderingException;
     
     /**
@@ -385,7 +385,7 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if map is not allowed at the current position
      * @throws NullPointerException if pairs or renderer is null
      */
-    <T> Renderer value(@Nonnull Map<?, T> pairs, @Nonnull ValueRenderer<? super T> renderer) 
+    <T> Renderer value(@Nonnull Map<?, ? extends T> pairs, @Nonnull ValueRenderer<? super T> renderer) 
         throws RenderingException;
     
     /**
