@@ -25,7 +25,7 @@ import com.google.common.collect.ForwardingObject;
 
 /**
  * An abstract decorator for {@link Renderer}s.
- *
+ * 
  * @author Willi Schoenborn
  */
 public abstract class ForwardingRenderer extends ForwardingObject implements Renderer {
@@ -35,173 +35,230 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
 
     @Override
     public Object build() throws RenderingException {
-        return delegate().build();
+        delegate().build();
+        return this;
     }
 
     @Override
     public Renderer endList() throws RenderingException {
-        return delegate().endList();
+        delegate().endList();
+        return this;
     }
 
     @Override
     public Renderer endMap() throws RenderingException {
-        return delegate().endMap();
+        delegate().endMap();
+        return this;
     }
 
     @Override
     public Renderer key(CharSequence key) throws RenderingException {
-        return delegate().key(key);
+        delegate().key(key);
+        return this;
     }
 
     @Override
     public Renderer key(Object key) throws RenderingException {
-        return delegate().key(key);
+        delegate().key(key);
+        return this;
     }
 
     @Override
     public Renderer list() throws RenderingException {
-        return delegate().list();
+        delegate().list();
+        return this;
     }
 
     @Override
     public Renderer map() throws RenderingException {
-        return delegate().map();
+        delegate().map();
+        return this;
     }
 
     @Override
     public Renderer nullValue() throws RenderingException {
-        return delegate().nullValue();
+        delegate().nullValue();
+        return this;
     }
 
     @Override
     public Renderer pairs(Map<?, ?> pairs) throws RenderingException {
-        return delegate().pairs(pairs);
+        delegate().pairs(pairs);
+        return this;
     }
 
     @Override
     public <T> Renderer pairs(Map<?, ? extends T> pairs, ValueRenderer<? super T> renderer) 
         throws RenderingException {
-        return delegate().pairs(pairs, renderer);
+        delegate().pairs(pairs, renderer);
+        return this;
     }
 
     @Override
     public Renderer pairs(Renderable pairs, RenderingLevel level) throws RenderingException {
-        return delegate().pairs(pairs, level);
+        delegate().pairs(pairs, level);
+        return this;
     }
 
     @Override
     public Renderer value(boolean value) throws RenderingException {
-        return delegate().value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public Renderer value(Calendar value) throws RenderingException {
-        return delegate().value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public Renderer value(CharSequence value) throws RenderingException {
-        return delegate().value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public Renderer value(Date value) throws RenderingException {
-        return delegate().value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public Renderer value(double value) throws RenderingException {
-        return delegate().value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public Renderer value(Enum<?> value) throws RenderingException {
-        return delegate().value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public Renderer value(Iterable<?> values) throws RenderingException {
-        return delegate().value(values);
+        delegate().value(values);
+        return this;
     }
 
     @Override
     public <T> Renderer value(Iterable<? extends T> values, ValueRenderer<? super T> renderer) 
         throws RenderingException {
-        return delegate().value(values, renderer);
+        delegate().value(values, renderer);
+        return this;
     }
 
     @Override
     public Renderer value(Iterator<?> values) throws RenderingException {
-        return delegate().value(values);
+        delegate().value(values);
+        return this;
     }
 
     @Override
     public <T> Renderer value(Iterator<? extends T> values, ValueRenderer<? super T> renderer) 
         throws RenderingException {
-        return delegate().value(values, renderer);
+        delegate().value(values, renderer);
+        return this;
     }
 
     @Override
+    public Renderer value(Iterable<? extends Renderable> values, RenderingLevel level) throws RenderingException {
+        delegate().value(values, level);
+        return this;
+    }
+    
+    @Override
+    public Renderer value(Iterator<? extends Renderable> values, RenderingLevel level) throws RenderingException {
+        delegate().value(values, level);
+        return this;
+    }
+    
+    @Override
     public Renderer value(long value) throws RenderingException {
-        return delegate().value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public Renderer value(Map<?, ?> pairs) throws RenderingException {
-        return delegate().value(pairs);
+        delegate().value(pairs);
+        return this;
     }
 
     @Override
     public <T> Renderer value(Map<?, ? extends T> pairs, ValueRenderer<? super T> renderer) 
         throws RenderingException {
-        return delegate().value(pairs, renderer);
+        delegate().value(pairs, renderer);
+        return this;
     }
 
     @Override
     public Renderer value(Object... values) throws RenderingException {
-        return delegate().value(values);
+        delegate().value(values);
+        return this;
     }
 
     @Override
     public Renderer value(Object value) throws RenderingException {
-        return delegate().value(value);
+        delegate().value(value);
+        return this;
     }
 
     @Override
     public Renderer value(Renderable pairs, RenderingLevel level) throws RenderingException {
-        return delegate().value(pairs, level);
+        delegate().value(pairs, level);
+        return this;
     }
 
     @Override
     public <T> Renderer value(T value, ValueRenderer<? super T> renderer) throws RenderingException {
-        return delegate().value(value, renderer);
+        delegate().value(value, renderer);
+        return this;
     }
 
     @Override
     public Renderer values(Iterable<?> values) throws RenderingException {
-        return delegate().values(values);
+        delegate().values(values);
+        return this;
     }
 
     @Override
     public <T> Renderer values(Iterable<? extends T> values, ValueRenderer<? super T> renderer) 
         throws RenderingException {
-        return delegate().values(values, renderer);
+        delegate().values(values, renderer);
+        return this;
     }
 
     @Override
+    public Renderer values(Iterable<? extends Renderable> values, RenderingLevel level) throws RenderingException {
+        delegate().values(values, level);
+        return this;
+    }
+    
+    @Override
+    public Renderer values(Iterator<? extends Renderable> values, RenderingLevel level) throws RenderingException {
+        delegate().values(values, level);
+        return this;
+    }
+    
+    @Override
     public Renderer values(Iterator<?> values) throws RenderingException {
-        return delegate().values(values);
+        delegate().values(values);
+        return this;
     }
 
     @Override
     public <T> Renderer values(Iterator<? extends T> values, ValueRenderer<? super T> renderer) 
         throws RenderingException {
-        return delegate().values(values, renderer);
+        delegate().values(values, renderer);
+        return this;
     }
 
     @Override
     public Renderer values(Object... values) throws RenderingException {
-        return delegate().values(values);
+        delegate().values(values);
+        return this;
     }
 
 }

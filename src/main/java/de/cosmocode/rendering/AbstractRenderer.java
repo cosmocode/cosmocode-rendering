@@ -206,6 +206,13 @@ public abstract class AbstractRenderer implements Renderer {
         Preconditions.checkNotNull(renderer, "Renderer");
         return values(values.iterator(), renderer);
     }
+
+    @Override
+    public Renderer values(Iterable<? extends Renderable> values, RenderingLevel level) throws RenderingException {
+        Preconditions.checkNotNull(values, "Values");
+        Preconditions.checkNotNull(level, "Level");
+        return values(values.iterator(), level);
+    }
     
     @Override
     public Renderer values(Iterator<?> values) throws RenderingException {
@@ -223,6 +230,16 @@ public abstract class AbstractRenderer implements Renderer {
         Preconditions.checkNotNull(renderer, "Renderer");
         while (values.hasNext()) {
             renderer.render(values.next(), this);
+        }
+        return this;
+    }
+    
+    @Override
+    public Renderer values(Iterator<? extends Renderable> values, RenderingLevel level) throws RenderingException {
+        Preconditions.checkNotNull(values, "Values");
+        Preconditions.checkNotNull(level, "Level");
+        while (values.hasNext()) {
+            value(values.next(), level);
         }
         return this;
     }
@@ -259,6 +276,20 @@ public abstract class AbstractRenderer implements Renderer {
         Preconditions.checkNotNull(values, "Values");
         Preconditions.checkNotNull(renderer, "Renderer");
         return list().values(values, renderer).endList();
+    }
+    
+    @Override
+    public Renderer value(Iterable<? extends Renderable> values, RenderingLevel level) throws RenderingException {
+        Preconditions.checkNotNull(values, "Values");
+        Preconditions.checkNotNull(level, "Level");
+        return list().values(values, level).endList();
+    }
+    
+    @Override
+    public Renderer value(Iterator<? extends Renderable> values, RenderingLevel level) throws RenderingException {
+        Preconditions.checkNotNull(values, "Values");
+        Preconditions.checkNotNull(level, "Level");
+        return list().values(values, level).endList();
     }
     
     @Override

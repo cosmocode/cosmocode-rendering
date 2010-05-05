@@ -265,6 +265,30 @@ public interface Renderer extends Builder<Object> {
         throws RenderingException;
     
     /**
+     * Adds the specified values using the given level.
+     * 
+     * @param values the values being added
+     * @param level the value being passed to {@link Renderable#render(Renderer, RenderingLevel)}
+     * @return this
+     * @throws RenderingException if no values are allowed at the current position
+     * @throws NullPointerException if values or level is null
+     */
+    Renderer values(@Nonnull Iterable<? extends Renderable> values, @Nonnull RenderingLevel level)
+        throws RenderingException;
+    
+    /**
+     * Adds the specified values using the given level.
+     * 
+     * @param values the values being added
+     * @param level the value being passed to {@link Renderable#render(Renderer, RenderingLevel)}
+     * @return this
+     * @throws RenderingException if no values are allowed at the current position
+     * @throws NullPointerException if values or level is null
+     */
+    Renderer values(@Nonnull Iterator<? extends Renderable> values, @Nonnull RenderingLevel level)
+        throws RenderingException;
+    
+    /**
      * Add the specified values as a list. This is equivalent to:
      * {@code list().values(values).endList()}.
      * 
@@ -299,6 +323,19 @@ public interface Renderer extends Builder<Object> {
      */
     <T> Renderer value(@Nonnull Iterable<? extends T> values, @Nonnull ValueRenderer<? super T> renderer) 
         throws RenderingException;
+    
+    /**
+     * Adds the specified values as a list using the given level. This is equivalent to:
+     * {@code list().values(values, level).endList()}.
+     * 
+     * @param values the values being added
+     * @param level the level being passed to 
+     * @return this
+     * @throws RenderingException if list is not allowed at the current position
+     * @throws NullPointerException if values or level is null
+     */
+    Renderer value(@Nonnull Iterable<? extends Renderable> values, @Nonnull RenderingLevel level)
+        throws RenderingException;
 
     /**
      * Add the specified values as a list. This is equivalent to:
@@ -323,6 +360,19 @@ public interface Renderer extends Builder<Object> {
      * @throws NullPointerException if values or renderer is null
      */
     <T> Renderer value(@Nonnull Iterator<? extends T> values, @Nonnull ValueRenderer<? super T> renderer) 
+        throws RenderingException;
+    
+    /**
+     * Adds the specified values as a list using the given level. This is equivalent to:
+     * {@code list().values(values, level).endList()}.
+     * 
+     * @param values the values being added
+     * @param level the level being passed to 
+     * @return this
+     * @throws RenderingException if list is not allowed at the current position
+     * @throws NullPointerException if values or level is null
+     */
+    Renderer value(@Nonnull Iterator<? extends Renderable> values, @Nonnull RenderingLevel level)
         throws RenderingException;
     
     /**
