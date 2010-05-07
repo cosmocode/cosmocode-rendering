@@ -16,15 +16,22 @@
 
 package de.cosmocode.rendering;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.codec.binary.Base64;
+
+import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Multimap;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.Closeables;
 
 /**
  * Abstract base implementation of the {@link Renderer} interface.
@@ -185,6 +192,24 @@ public abstract class AbstractRenderer implements Renderer {
     @Override
     public Renderer value(Enum<?> value) throws RenderingException {
         return value(value, ENUM_RENDERER);
+    }
+    
+    @Override
+    public Renderer value(byte[] value) throws RenderingException {
+        if (value == null) return nullValue();
+        return value(new String(Base64.encodeBase64(value), Charsets.UTF_8));
+    }
+    
+    @Override
+    public Renderer value(InputStream value) throws RenderingException {
+        if (value == null) return nullValue();
+        try {
+            return value(ByteStreams.toByteArray(value));
+        } catch (IOException e) {
+            throw new RenderingException(e);
+        } finally {
+            Closeables.closeQuietly(value);
+        }
     }
     
     @Override

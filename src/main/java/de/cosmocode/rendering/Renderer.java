@@ -16,6 +16,7 @@
 
 package de.cosmocode.rendering;
 
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -205,6 +206,29 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if no value is allowed at the current position
      */
     Renderer value(@Nullable CharSequence value) throws RenderingException;
+    
+    /**
+     * Encodes the specified value using base64 and adds the result as a string.
+     * 
+     * @since 1.0
+     * @param value the value to be added
+     * @return this
+     * @throws RenderingException if no value is allowed at the current position
+     */
+    Renderer value(@Nullable byte[] value) throws RenderingException;
+    
+    /**
+     * Encodes the data provided by the specified stream using base64 and
+     * stores the result as a string.  The stream will be closed after this method
+     * returns.
+     * 
+     * @since 1.0
+     * @param value the value to be added
+     * @return this
+     * @throws RenderingException if no value is allowed at the current position or
+     *         reading from the stream failed
+     */
+    Renderer value(@Nullable InputStream value) throws RenderingException;
     
     /**
      * Adds the specified values.
@@ -460,6 +484,8 @@ public interface Renderer extends Builder<Object> {
      * 
      * @return the built structure
      * @throws RenderingException if the structure is not finished yet
+     * @throws UnsupportedOperationException if the implementation uses streaming and
+     *         does not support in memory production
      */
     @Override
     Object build() throws RenderingException;
