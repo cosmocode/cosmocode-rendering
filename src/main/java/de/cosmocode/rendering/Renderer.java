@@ -443,9 +443,8 @@ public interface Renderer extends Builder<Object> {
      * @param pairs the pairs being added
      * @return this
      * @throws RenderingException if map is not allowed at the current position
-     * @throws NullPointerException if pairs is null
      */
-    Renderer value(@Nonnull Map<?, ?> pairs) throws RenderingException;
+    Renderer value(@Nullable  Map<?, ?> pairs) throws RenderingException;
 
     /**
      * Adds the specified pairs as a map using the given renderer for value conversion. The keys will be passed
@@ -457,9 +456,9 @@ public interface Renderer extends Builder<Object> {
      * @param renderer the value renderer used to convert all values in pairs
      * @return this
      * @throws RenderingException if map is not allowed at the current position
-     * @throws NullPointerException if pairs or renderer is null
+     * @throws NullPointerException if renderer is null
      */
-    <T> Renderer value(@Nonnull Map<?, ? extends T> pairs, @Nonnull ValueRenderer<? super T> renderer) 
+    <T> Renderer value(@Nullable  Map<?, ? extends T> pairs, @Nonnull ValueRenderer<? super T> renderer) 
         throws RenderingException;
     
     /**
@@ -471,9 +470,9 @@ public interface Renderer extends Builder<Object> {
      * @param level the level being passed to the renderable
      * @return this
      * @throws RenderingException if map is not allowed at the current position
-     * @throws NullPointerException if pairs or level is null
+     * @throws NullPointerException if level is null
      */
-    Renderer value(@Nonnull Renderable pairs, @Nonnull RenderingLevel level) throws RenderingException;
+    Renderer value(@Nullable  Renderable pairs, @Nonnull RenderingLevel level) throws RenderingException;
     
     /**
      * Builds the final data structure.

@@ -348,22 +348,22 @@ public abstract class AbstractRenderer implements Renderer {
     
     @Override
     public Renderer value(Map<?, ?> pairs) throws RenderingException {
-        Preconditions.checkNotNull(pairs, "Pairs");
+        if (pairs == null) return nullValue();
         return map().pairs(pairs).endMap();
     }
     
     @Override
     public <T> Renderer value(Map<?, ? extends T> pairs, ValueRenderer<? super T> renderer) 
         throws RenderingException {
-        Preconditions.checkNotNull(pairs, "Pairs");
         Preconditions.checkNotNull(renderer, "Renderer");
+        if (pairs == null) return nullValue();
         return map().pairs(pairs, renderer).endMap();
     }
     
     @Override
     public Renderer value(Renderable pairs, RenderingLevel level) throws RenderingException {
-        Preconditions.checkNotNull(pairs, "Pairs");
         Preconditions.checkNotNull(level, "Level");
+        if (pairs == null) return nullValue();
         return map().pairs(pairs, level).endMap();
     }
     
