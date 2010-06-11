@@ -75,7 +75,7 @@ public final class CollectionRenderer extends AbstractRenderer {
             map.put(map.lastKey(), value);
             mode = Mode.MAP;
         } else {
-            throw new RenderingException("ihhh!");
+            throw new RenderingException(String.format("Appending only works in %s and %s", Mode.LIST, Mode.KEY));
         }
         return this;
     }
@@ -92,7 +92,7 @@ public final class CollectionRenderer extends AbstractRenderer {
             mode = Mode.LIST;
             return this;
         } else {
-            throw new RenderingException("aah!");
+            throw new RenderingException(String.format("%s is not allowed after %s", Mode.LIST, mode));
         }
     }
     
@@ -116,7 +116,7 @@ public final class CollectionRenderer extends AbstractRenderer {
             }
             return this;
         } else {
-            throw new RenderingException("Segmentation fault.");
+            throw new RenderingException(String.format("endList is not allowed when in %s mode", mode));
         }
     }
     
@@ -127,7 +127,7 @@ public final class CollectionRenderer extends AbstractRenderer {
             mode = Mode.MAP;
             return this;
         } else {
-            throw new RenderingException("No way!");
+            throw new RenderingException(String.format("%s is not allowed after %s", Mode.MAP, mode));
         }
     }
     
@@ -151,7 +151,7 @@ public final class CollectionRenderer extends AbstractRenderer {
             }
             return this;
         } else {
-            throw new RenderingException("What are you doing here?");
+            throw new RenderingException(String.format("endMap is not allowed when in %s mode", mode));
         }
     }
     
@@ -162,7 +162,7 @@ public final class CollectionRenderer extends AbstractRenderer {
             mode = Mode.KEY;
             return this;
         } else {
-            throw new RenderingException("Are you fooling me?");
+            throw new RenderingException(String.format("%s is not allowed after %s", Mode.KEY, mode));
         }
     }
     
