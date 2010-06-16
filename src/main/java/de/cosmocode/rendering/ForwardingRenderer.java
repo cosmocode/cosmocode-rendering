@@ -36,8 +36,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
 
     @Override
     public Object build() throws RenderingException {
-        delegate().build();
-        return this;
+        return delegate().build();
     }
 
     @Override

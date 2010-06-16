@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.map.LinkedMap;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 /**
@@ -203,7 +204,7 @@ public final class CollectionRenderer extends AbstractRenderer {
     public Object build() throws RenderingException {
         if (mode == Mode.DONE) {
             assert stack.isEmpty();
-            assert build != null;
+            Preconditions.checkState(build != null, "Structure not finished yet");
             return build;
         } else {
             throw new RenderingException(String.format("Structure not finished, current mode is %s", mode));
