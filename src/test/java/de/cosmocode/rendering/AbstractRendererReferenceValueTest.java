@@ -253,7 +253,7 @@ public abstract class AbstractRendererReferenceValueTest implements UnitProvider
      */
     @Test(expected = RenderingException.class)
     public void valueCharSequenceMap() {
-        unit().map().value(new String());
+        unit().map().value("");
     }
     
     /**

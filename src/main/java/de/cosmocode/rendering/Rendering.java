@@ -33,6 +33,16 @@ public final class Rendering {
             return this == that ? 0 : 1;
         }
         
+        @Override
+        public boolean equals(Object that) {
+            return this == that;
+        };
+        
+        @Override
+        public int hashCode() {
+            return super.hashCode();
+        };
+        
     };
     
     private Rendering() {
@@ -93,6 +103,32 @@ public final class Rendering {
             return value - IntegerRenderingLevel.class.cast(that).value;
         }
 
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + value;
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (!(obj instanceof IntegerRenderingLevel)) {
+                return false;
+            }
+            final IntegerRenderingLevel other = (IntegerRenderingLevel) obj;
+            if (value != other.value) {
+                return false;
+            }
+            return true;
+        }
+
     }
     
     /**
@@ -126,6 +162,28 @@ public final class Rendering {
         @Override
         public int compareTo(RenderingLevel other) {
             return comparable.compareTo(other);
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((comparable == null) ? 0 : comparable.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object that) {
+            if (this == that) {
+                return true;
+            } else if (that == null) {
+                return false;
+            } else if (that instanceof ComparableRenderingLevel) {
+                final ComparableRenderingLevel other = ComparableRenderingLevel.class.cast(that);
+                return compareTo(other) == 0;
+            } else {
+                return false;
+            }
         }
         
     }
