@@ -42,7 +42,7 @@ public final class DefaultListRenderer extends ForwardingRenderer implements Lis
     @Override
     public List<Object> build() throws RenderingException {
         final Object built = super.build();
-        assert built instanceof List<?>;
+        assert built instanceof List<?> : String.format("Expected list, but was %s", built);
         @SuppressWarnings("unchecked")
         final List<Object> list = List.class.cast(built);
         return list;
