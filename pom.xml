@@ -8,10 +8,10 @@
   <groupId>de.cosmocode</groupId>
   <artifactId>cosmocode-rendering</artifactId>
   <name>CosmoCode Rendering</name>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.0.2</version>
   <description>  </description>
   <scm>
-    <developerConnection>scm:svn:https://commons.svn.cosmocode.de/cosmocode-rendering/trunk</developerConnection>
+    <developerConnection>scm:svn:https://commons.svn.cosmocode.de/cosmocode-rendering/tags/1.0.2</developerConnection>
   </scm>
   <repositories>
     <repository>
