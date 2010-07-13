@@ -30,6 +30,11 @@ public interface Renderable {
      * may decide to make use of the supplied level which allows
      * providing different behaviours when rendering this object.
      * 
+     * <p>
+     *   <strong>Note</strong>: Renderables are only allowed to render themselves
+     *   as key-value pairs.
+     * </p>
+     * 
      * @param renderer the renderer being used
      * @param level the current level
      * @throws RenderingException if any method on renderer failed
