@@ -17,39 +17,44 @@
 package de.cosmocode.rendering;
 
 /**
- * An enum implementation of the {@link RenderingLevel} based on
- * clothing size letter codes as described in
- * <a href="http://en.wikipedia.org/wiki/EN_13402#Letter_codes">Wikipedia</a>.
+ * Implementation for {@link Rendering#maxLevel()}.
  *
+ * @since 1.1
  * @author Willi Schoenborn
  */
-public enum Level implements RenderingLevel {
+enum MaxRenderingLevel implements RenderingLevel {
 
-    S, M, L, XL, XXL;
-    
+    INSTANCE;
+
     @Override
-    public boolean lt(RenderingLevel level) {
-        return compareTo(Level.class.cast(level)) < 0;
+    public boolean lt(RenderingLevel level) throws ClassCastException {
+        return false;
     }
     
     @Override
-    public boolean le(RenderingLevel level) {
-        return eq(level) || lt(level);
+    public boolean le(RenderingLevel level) throws ClassCastException {
+        return eq(level);
     }
     
     @Override
-    public boolean eq(RenderingLevel level) {
-        return equals(level);
+    public boolean eq(RenderingLevel level) throws ClassCastException {
+        return this == level;
     }
     
     @Override
-    public boolean ge(RenderingLevel level) {
-        return eq(level) || gt(level);
+    public boolean ge(RenderingLevel level) throws ClassCastException {
+        return true;
     }
     
     @Override
-    public boolean gt(RenderingLevel level) {
-        return compareTo(Level.class.cast(level)) > 0;
+    public boolean gt(RenderingLevel level) throws ClassCastException {
+        // this is special
+        return true;
+    }
+    
+    @Override
+    public String toString() {
+        return "Rendering.maxLevel()";
     }
     
 }

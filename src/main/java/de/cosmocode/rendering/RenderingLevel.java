@@ -29,7 +29,7 @@ package de.cosmocode.rendering;
  * <p>
  *   This interface is especially designed for being implemented
  *   by enum types. This is why it does not extends {@link Comparable}. This is
- *   not compliant/compatible with the enum type hierarchy.
+ *   wouldn't be compliant/compatible with the enum type hierarchy.
  * </p>
  * 
  * <p>

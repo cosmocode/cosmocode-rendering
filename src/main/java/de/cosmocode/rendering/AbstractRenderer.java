@@ -16,7 +16,6 @@
 
 package de.cosmocode.rendering;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,14 +23,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.codec.binary.Base64;
-
-import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Multimap;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.Closeables;
 
 /**
  * Abstract base implementation of the {@link Renderer} interface.
@@ -45,35 +39,25 @@ import com.google.common.io.Closeables;
  */
 public abstract class AbstractRenderer implements Renderer {
 
-    private static final ValueRenderer<Enum<?>> ENUM_RENDERER = new ValueRenderer<Enum<?>>() {
-        
-        @Override
-        public void render(Enum<?> value, Renderer renderer) throws RenderingException {
-            if (value == null) {
-                renderer.nullValue();
-            } else {
-                renderer.value(value.name()); 
-            }
-        }
-
-    };
+    private ValueRendererRegistry registry = DefaultValueRendererRegistry.INSTANCE;
     
-    private static final ValueRenderer<Date> DATE_RENDERER = new ValueRenderer<Date>() {
-        
-        @Override
-        public void render(Date value, Renderer renderer) throws RenderingException {
-            if (value == null) {
-                renderer.nullValue();
-            } else {
-                renderer.value(value.getTime() / 1000); 
-            }
-        }
-        
-    };
+    @Override
+    public void setRegistry(ValueRendererRegistry registry) {
+        this.registry = Preconditions.checkNotNull(registry, "Registry");
+    }
     
     @Override
     public Renderer key(Object key) throws RenderingException {
         return key(key == null ? null : key.toString());
+    }
+
+    /**
+     * Provides the default {@link RenderingLevel}.
+     * 
+     * @return the default level, must not be null
+     */
+    protected RenderingLevel defaultLevel() {
+        return Rendering.maxLevel();
     }
     
     @Override
@@ -98,13 +82,6 @@ public abstract class AbstractRenderer implements Renderer {
             return compoundValue(value);
         }
     }
-
-    /**
-     * Provides the default {@link RenderingLevel}.
-     * 
-     * @return the default level, must not be null
-     */
-    protected abstract RenderingLevel defaultLevel();
     
     /**
      * Groups all {@link Number} values.
@@ -164,7 +141,19 @@ public abstract class AbstractRenderer implements Renderer {
      * @return this
      */
     protected Renderer unknownValue(Object value) {
-        return value(value.toString());
+        final ValueRenderer<Object> renderer = registry.find(value.getClass());
+        Preconditions.checkNotNull(renderer, "Renderer");
+        renderer.render(value, this);
+        return this;
+    }
+    
+    private <T> Renderer value(Class<T> type, T value) {
+        final ValueRenderer<T> renderer = registry.find(type);
+        Preconditions.checkNotNull(renderer, "Renderer");
+        // let the renderer take care of nulls
+        renderer.render(value, this);
+        return this;
+        
     }
     
     @Override
@@ -176,40 +165,27 @@ public abstract class AbstractRenderer implements Renderer {
     
     @Override
     public Renderer value(Date value) throws RenderingException {
-        return value(value, DATE_RENDERER);
+        return value(Date.class, value);
     }
     
-    /**
-     * Using the method is equivalent to:
-     * {@code renderer.value(calendar.getTime())}.
-     * {@inheritDoc}
-     */
     @Override
     public Renderer value(Calendar value) throws RenderingException {
-        return value == null ? nullValue() : value(value.getTime());
+        return value(Calendar.class, value);
     }
     
     @Override
     public Renderer value(Enum<?> value) throws RenderingException {
-        return value(value, ENUM_RENDERER);
+        return value(Enum.class, value);
     }
     
     @Override
     public Renderer value(byte[] value) throws RenderingException {
-        if (value == null) return nullValue();
-        return value(new String(Base64.encodeBase64(value), Charsets.UTF_8));
+        return value(byte[].class, value);
     }
     
     @Override
     public Renderer value(InputStream value) throws RenderingException {
-        if (value == null) return nullValue();
-        try {
-            return value(ByteStreams.toByteArray(value));
-        } catch (IOException e) {
-            throw new RenderingException(e);
-        } finally {
-            Closeables.closeQuietly(value);
-        }
+        return value(InputStream.class, value);
     }
     
     @Override

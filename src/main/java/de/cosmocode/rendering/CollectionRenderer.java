@@ -82,11 +82,6 @@ public final class CollectionRenderer extends AbstractRenderer {
     }
     
     @Override
-    protected RenderingLevel defaultLevel() {
-        return Rendering.maxLevel();
-    }
-    
-    @Override
     public Renderer list() throws RenderingException {
         if (Mode.LIST.isAllowedAfter(mode)) {
             stack.push(Lists.newArrayList());

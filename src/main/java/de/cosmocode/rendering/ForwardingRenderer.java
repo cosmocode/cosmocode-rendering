@@ -40,6 +40,11 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
+    public void setRegistry(ValueRendererRegistry registry) {
+        delegate().setRegistry(registry);
+    }
+    
+    @Override
     public Renderer endList() throws RenderingException {
         delegate().endList();
         return this;

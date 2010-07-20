@@ -64,6 +64,8 @@ import de.cosmocode.patterns.Builder;
  */
 public interface Renderer extends Builder<Object> {
 
+    void setRegistry(@Nonnull ValueRendererRegistry registry);
+    
     /**
      * Starts a list structure.
      * 
@@ -219,7 +221,7 @@ public interface Renderer extends Builder<Object> {
     
     /**
      * Encodes the data provided by the specified stream using base64 and
-     * stores the result as a string.  The stream will be closed after this method
+     * stores the result as a string. The stream will be closed after this method
      * returns.
      * 
      * @since 1.0

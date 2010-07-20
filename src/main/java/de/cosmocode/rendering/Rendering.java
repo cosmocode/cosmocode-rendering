@@ -16,7 +16,18 @@
 
 package de.cosmocode.rendering;
 
+import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.Map.Entry;
+
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.Maps;
+
+import de.cosmocode.commons.reflect.Reflection;
 
 /**
  * Static utility class for rendering concers. All comparision
@@ -26,25 +37,10 @@ import com.google.common.base.Preconditions;
  */
 public final class Rendering {
 
-    private static final RenderingLevel MAX = new AbstractRenderingLevel() {
-        
-        @Override
-        public int compareTo(RenderingLevel that) {
-            return this == that ? 0 : 1;
-        }
-        
-        @Override
-        public boolean equals(Object that) {
-            return this == that;
-        };
-        
-        @Override
-        public int hashCode() {
-            return super.hashCode();
-        };
-        
-    };
-    
+    private static final ImmutableSortedMap<Class<?>, ValueRenderer<?>> MAPPING = ImmutableSortedMap.copyOfSorted(
+        Rendering.getMutableMapping()
+    );
+
     private Rendering() {
         
     }
@@ -66,7 +62,7 @@ public final class Rendering {
      * @return a rendering level which is greater than every other level
      */
     public static RenderingLevel maxLevel() {
-        return MAX;
+        return MaxRenderingLevel.INSTANCE;
     }
 
     /**
@@ -86,52 +82,6 @@ public final class Rendering {
     }
     
     /**
-     * {@link Integer} based {@link RenderingLevel} implementation.
-     *
-     * @author Willi Schoenborn
-     */
-    private static final class IntegerRenderingLevel extends AbstractRenderingLevel {
-
-        private final int value;
-        
-        public IntegerRenderingLevel(int value) {
-            this.value = value;
-        }
-
-        @Override
-        public int compareTo(RenderingLevel that) {
-            return value - IntegerRenderingLevel.class.cast(that).value;
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + value;
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (!(obj instanceof IntegerRenderingLevel)) {
-                return false;
-            }
-            final IntegerRenderingLevel other = (IntegerRenderingLevel) obj;
-            if (value != other.value) {
-                return false;
-            }
-            return true;
-        }
-
-    }
-    
-    /**
      * Creates a rendering level which is backed by the specified comparable.
      * 
      * <p>
@@ -142,50 +92,8 @@ public final class Rendering {
      * @return a rendering level which compares levels using the semantics
      *         of the specified comparable
      */
-    public static RenderingLevel asLevel(final Comparable<RenderingLevel> comparable) {
+    public static RenderingLevel asLevel(Comparable<? super RenderingLevel> comparable) {
         return new ComparableRenderingLevel(comparable);
-    }
-    
-    /**
-     * {@link Comparable} based {@link RenderingLevel} implementation.
-     *
-     * @author Willi Schoenborn
-     */
-    private static final class ComparableRenderingLevel extends AbstractRenderingLevel {
-        
-        private final Comparable<RenderingLevel> comparable;
-
-        public ComparableRenderingLevel(Comparable<RenderingLevel> comparable) {
-            this.comparable = Preconditions.checkNotNull(comparable, "Comparable");
-        }
-
-        @Override
-        public int compareTo(RenderingLevel other) {
-            return comparable.compareTo(other);
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + ((comparable == null) ? 0 : comparable.hashCode());
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object that) {
-            if (this == that) {
-                return true;
-            } else if (that == null) {
-                return false;
-            } else if (that instanceof ComparableRenderingLevel) {
-                final ComparableRenderingLevel other = ComparableRenderingLevel.class.cast(that);
-                return compareTo(other) == 0;
-            } else {
-                return false;
-            }
-        }
-        
     }
     
     /**
@@ -195,24 +103,60 @@ public final class Rendering {
      * @param <T> the generic value type
      * @return a value renderer which delegates back to the renderer
      */
+    // safe because the parameter will just be passed to Renderer.value(Object)
+    @SuppressWarnings("unchecked")
     public static <T> ValueRenderer<T> defaultValueRenderer() {
-        return new DefaultValueRenderer<T>();
+        return (ValueRenderer<T>) ObjectValueRenderer.INSTANCE;
+    }
+    
+    public static ImmutableSortedMap<Class<?>, ValueRenderer<?>> getImmutableMapping() {
+        return Rendering.MAPPING;
     }
     
     /**
-     * Implementation of the {@link ValueRenderer} interface which delegates
-     * back to the renderer.
-     *
-     * @author Willi Schoenborn
-     * @param <T> the generic value type
+     * 
+     * 
+     * @since 
+     * @return
      */
-    private static final class DefaultValueRenderer<T> implements ValueRenderer<T> {
-        
-        @Override
-        public void render(T value, Renderer renderer) throws RenderingException {
-            renderer.value(value);
-        };
-        
-    }
+    public static SortedMap<Class<?>, ValueRenderer<?>> getMutableMapping() {
+        final SortedMap<Class<?>, ValueRenderer<?>> map = Maps.newTreeMap(Reflection.orderByHierarchy());
 
+        map.put(byte[].class, ByteArrayValueRenderer.INSTANCE);
+        map.put(Calendar.class, CalendarValueRenderer.INSTANCE);
+        map.put(Date.class, DateValueRenderer.INSTANCE);
+        map.put(Enum.class, EnumValueRenderer.INSTANCE);
+        map.put(InputStream.class, InputStreamValueRenderer.INSTANCE);
+        map.put(Object.class, ObjectValueRenderer.INSTANCE);
+        
+        return map;
+    }
+    
+    public static ValueRendererRegistry newRegistry() {
+        return newRegistry(getMutableMapping());
+    }
+    
+    public static ValueRendererRegistry newRegistry(SortedMap<Class<?>, ValueRenderer<?>> map) {
+        return new SortedMapValueRendererRegistry(map);
+    }
+    
+    static <T> ValueRenderer<T> find(Map<Class<?>, ValueRenderer<?>> renderers, Class<? extends T> type) {
+        Preconditions.checkNotNull(renderers, "Renderers");
+        return find(renderers.entrySet(), type);
+    }
+    
+    static <T> ValueRenderer<T> find(Iterable<Entry<Class<?>, ValueRenderer<?>>> renderers, Class<? extends T> type) {
+        Preconditions.checkNotNull(renderers, "Renderers");
+        Preconditions.checkNotNull(type, "Type");
+        for (Entry<Class<?>, ValueRenderer<?>> entry : renderers) {
+            if (entry.getKey().isAssignableFrom(type)) {
+                // guarded by register(Class, ValueRenderer)
+                @SuppressWarnings("unchecked")
+                final ValueRenderer<T> renderer = (ValueRenderer<T>) entry.getValue();
+                return renderer;
+            }
+        }
+        return null;
+    }
+    
 }
