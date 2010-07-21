@@ -22,7 +22,7 @@ package de.cosmocode.rendering;
  * @since 1.1 
  * @author Willi Schoenborn
  */
-enum EnumValueRenderer implements ValueRenderer<Enum<?>> {
+public enum EnumValueRenderer implements ValueRenderer<Enum<?>> {
     
     INSTANCE;
     

@@ -24,7 +24,7 @@ import java.util.Date;
  * @since 1.1
  * @author Willi Schoenborn
  */
-enum DateValueRenderer implements ValueRenderer<Date> {
+public enum DateValueRenderer implements ValueRenderer<Date> {
 
     INSTANCE;
     

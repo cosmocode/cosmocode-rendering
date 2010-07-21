@@ -63,8 +63,6 @@ import de.cosmocode.patterns.Builder;
  * @author Willi Schoenborn
  */
 public interface Renderer extends Builder<Object> {
-
-    void setRegistry(@Nonnull ValueRendererRegistry registry);
     
     /**
      * Starts a list structure.
@@ -115,6 +113,16 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if currently not inside a map
      */
     Renderer key(@Nullable Object key) throws RenderingException;
+
+    /**
+     * Changes the {@link Class} to {@link ValueRenderer} mapping of this
+     * {@link Renderer}.
+     * 
+     * @since 1.1
+     * @param mapping the new mapping
+     * @throws NullPointerException if mapping is null
+     */
+    void setMapping(@Nonnull Mapping mapping);
     
     /**
      * Adds a null value.

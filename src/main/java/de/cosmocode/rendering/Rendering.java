@@ -16,19 +16,6 @@
 
 package de.cosmocode.rendering;
 
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.Map.Entry;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSortedMap;
-import com.google.common.collect.Maps;
-
-import de.cosmocode.commons.reflect.Reflection;
-
 /**
  * Static utility class for rendering concers. All comparision
  * methods are <strong>not necessarily transitive nor symetric</strong>.
@@ -36,10 +23,6 @@ import de.cosmocode.commons.reflect.Reflection;
  * @author Willi Schoenborn
  */
 public final class Rendering {
-
-    private static final ImmutableSortedMap<Class<?>, ValueRenderer<?>> MAPPING = ImmutableSortedMap.copyOfSorted(
-        Rendering.getMutableMapping()
-    );
 
     private Rendering() {
         
@@ -106,57 +89,7 @@ public final class Rendering {
     // safe because the parameter will just be passed to Renderer.value(Object)
     @SuppressWarnings("unchecked")
     public static <T> ValueRenderer<T> defaultValueRenderer() {
-        return (ValueRenderer<T>) ObjectValueRenderer.INSTANCE;
-    }
-    
-    public static ImmutableSortedMap<Class<?>, ValueRenderer<?>> getImmutableMapping() {
-        return Rendering.MAPPING;
-    }
-    
-    /**
-     * 
-     * 
-     * @since 
-     * @return
-     */
-    public static SortedMap<Class<?>, ValueRenderer<?>> getMutableMapping() {
-        final SortedMap<Class<?>, ValueRenderer<?>> map = Maps.newTreeMap(Reflection.orderByHierarchy());
-
-        map.put(byte[].class, ByteArrayValueRenderer.INSTANCE);
-        map.put(Calendar.class, CalendarValueRenderer.INSTANCE);
-        map.put(Date.class, DateValueRenderer.INSTANCE);
-        map.put(Enum.class, EnumValueRenderer.INSTANCE);
-        map.put(InputStream.class, InputStreamValueRenderer.INSTANCE);
-        map.put(Object.class, ObjectValueRenderer.INSTANCE);
-        
-        return map;
-    }
-    
-    public static ValueRendererRegistry newRegistry() {
-        return newRegistry(getMutableMapping());
-    }
-    
-    public static ValueRendererRegistry newRegistry(SortedMap<Class<?>, ValueRenderer<?>> map) {
-        return new SortedMapValueRendererRegistry(map);
-    }
-    
-    static <T> ValueRenderer<T> find(Map<Class<?>, ValueRenderer<?>> renderers, Class<? extends T> type) {
-        Preconditions.checkNotNull(renderers, "Renderers");
-        return find(renderers.entrySet(), type);
-    }
-    
-    static <T> ValueRenderer<T> find(Iterable<Entry<Class<?>, ValueRenderer<?>>> renderers, Class<? extends T> type) {
-        Preconditions.checkNotNull(renderers, "Renderers");
-        Preconditions.checkNotNull(type, "Type");
-        for (Entry<Class<?>, ValueRenderer<?>> entry : renderers) {
-            if (entry.getKey().isAssignableFrom(type)) {
-                // guarded by register(Class, ValueRenderer)
-                @SuppressWarnings("unchecked")
-                final ValueRenderer<T> renderer = (ValueRenderer<T>) entry.getValue();
-                return renderer;
-            }
-        }
-        return null;
+        return (ValueRenderer<T>) DefaultValueRenderer.INSTANCE;
     }
     
 }

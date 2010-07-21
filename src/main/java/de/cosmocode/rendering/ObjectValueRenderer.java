@@ -17,7 +17,7 @@
 package de.cosmocode.rendering;
 
 /**
- * Implementation for {@link Rendering#defaultValueRenderer()}.
+ * Default {@link Object} {@link ValueRenderer}.
  *
  * @since 1.1
  * @author Willi Schoenborn
@@ -28,12 +28,11 @@ public enum ObjectValueRenderer implements ValueRenderer<Object> {
     
     @Override
     public void render(Object value, Renderer renderer) throws RenderingException {
-        renderer.value(value);
-    }
-    
-    @Override
-    public String toString() {
-        return "Rendering.defaultValueRenderer()";
+        if (value == null) {
+            renderer.nullValue();
+        } else {
+            renderer.value(value.toString());
+        }
     }
     
 }

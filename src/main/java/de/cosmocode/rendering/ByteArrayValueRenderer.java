@@ -26,7 +26,7 @@ import com.google.common.base.Charsets;
  * @since 1.1
  * @author Willi Schoenborn
  */
-enum ByteArrayValueRenderer implements ValueRenderer<byte[]> {
+public enum ByteArrayValueRenderer implements ValueRenderer<byte[]> {
 
     INSTANCE;
     

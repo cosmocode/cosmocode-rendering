@@ -40,8 +40,8 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public void setRegistry(ValueRendererRegistry registry) {
-        delegate().setRegistry(registry);
+    public void setMapping(Mapping mapping) {
+        delegate().setMapping(mapping);
     }
     
     @Override

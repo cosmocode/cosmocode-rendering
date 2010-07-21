@@ -16,35 +16,24 @@
 
 package de.cosmocode.rendering;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import com.google.common.io.ByteStreams;
-import com.google.common.io.Closeables;
-
 /**
- * Default {@link InputStream} {@link ValueRenderer}.
+ * Implementation for {@link Rendering#defaultValueRenderer()}.
  *
- * @since 
+ * @since 1.1
  * @author Willi Schoenborn
  */
-public enum InputStreamValueRenderer implements ValueRenderer<InputStream> {
+public enum DefaultValueRenderer implements ValueRenderer<Object> {
 
     INSTANCE;
     
     @Override
-    public void render(InputStream value, Renderer renderer) throws RenderingException {
-        if (value == null) {
-            renderer.nullValue();
-        } else {
-            try {
-                renderer.value(ByteStreams.toByteArray(value));
-            } catch (IOException e) {
-                throw new RenderingException(e);
-            } finally {
-                Closeables.closeQuietly(value);
-            }
-        }
+    public void render(Object value, Renderer renderer) throws RenderingException {
+        renderer.value(value);
+    }
+    
+    @Override
+    public String toString() {
+        return "Rendering.defaultValueRenderer()";
     }
     
 }

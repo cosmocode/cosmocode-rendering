@@ -39,11 +39,11 @@ import com.google.common.collect.Multimap;
  */
 public abstract class AbstractRenderer implements Renderer {
 
-    private ValueRendererRegistry registry = DefaultValueRendererRegistry.INSTANCE;
-    
+    private Mapping mapping = Mappings.defaultMapping();
+
     @Override
-    public void setRegistry(ValueRendererRegistry registry) {
-        this.registry = Preconditions.checkNotNull(registry, "Registry");
+    public void setMapping(Mapping mapping) {
+        this.mapping = Preconditions.checkNotNull(mapping, "Mapping");
     }
     
     @Override
@@ -141,14 +141,15 @@ public abstract class AbstractRenderer implements Renderer {
      * @return this
      */
     protected Renderer unknownValue(Object value) {
-        final ValueRenderer<Object> renderer = registry.find(value.getClass());
+        final ValueRenderer<Object> renderer = mapping.find(value.getClass());
         Preconditions.checkNotNull(renderer, "Renderer");
         renderer.render(value, this);
         return this;
     }
     
     private <T> Renderer value(Class<T> type, T value) {
-        final ValueRenderer<T> renderer = registry.find(type);
+        final ValueRenderer<T> renderer = mapping.find(type);
+        // should not happen as long as Object & String are supported
         Preconditions.checkNotNull(renderer, "Renderer");
         // let the renderer take care of nulls
         renderer.render(value, this);
