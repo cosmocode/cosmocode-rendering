@@ -16,9 +16,6 @@
 
 package de.cosmocode.rendering;
 
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -112,19 +109,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public Renderer value(Calendar value) throws RenderingException {
-        delegate().value(value);
-        return this;
-    }
-
-    @Override
     public Renderer value(CharSequence value) throws RenderingException {
-        delegate().value(value);
-        return this;
-    }
-
-    @Override
-    public Renderer value(Date value) throws RenderingException {
         delegate().value(value);
         return this;
     }
@@ -135,24 +120,6 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
         return this;
     }
 
-    @Override
-    public Renderer value(Enum<?> value) throws RenderingException {
-        delegate().value(value);
-        return this;
-    }
-
-    @Override
-    public Renderer value(byte[] value) throws RenderingException {
-        delegate().value(value);
-        return this;
-    }
-    
-    @Override
-    public Renderer value(InputStream value) throws RenderingException {
-        delegate().value(value);
-        return this;
-    }
-    
     @Override
     public Renderer value(Iterable<?> values) throws RenderingException {
         delegate().value(values);

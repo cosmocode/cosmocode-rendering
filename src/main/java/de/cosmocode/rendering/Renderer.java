@@ -16,9 +16,6 @@
 
 package de.cosmocode.rendering;
 
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -59,7 +56,26 @@ import de.cosmocode.patterns.Builder;
  * 
  * Nevertheless does the renderer not make assumptions about the format
  * of the built structure. This decision is left to sub classes.
- *
+ * 
+ * <p>
+ *   This interface offers several {@code value} methods for so called
+ *   <em>primitive</em> or <em>low level</em> data types like {@code boolean}, {@code long},
+ *   {@code double} and {@link CharSequence}. The way how these low level types are
+ *   rendered is defined by subclasses, as this is extremely implementation specific. 
+ *   Several more methods exist for <em>compound</em> values like Arrays, {@link Iterable}s, 
+ *   {@link Iterator}s and {@link Map}s. The behaviour for all of these methods is
+ *   specified very clearly as they delegate to each other or the value methods
+ *   for primitive values. This behaviour is provided by {@link AbstractRenderer}.
+ * </p>
+ * 
+ * <p>
+ *   Every object type which is neither <em>primitive</em> nor <em>compound</em>
+ *   will be rendered using the configured {@link ValueRenderer} of the associated
+ *   {@link Mapping} instance of this {@link Renderer}. Feel free to supply custom
+ *   {@link ValueRenderer} for any type you want. Implementations are encouraged
+ *   to use {@link Mappings#defaultMapping()} as the default.
+ * </p>
+ * 
  * @author Willi Schoenborn
  */
 public interface Renderer extends Builder<Object> {
@@ -188,57 +204,7 @@ public interface Renderer extends Builder<Object> {
      * @return this
      * @throws RenderingException if no value is allowed at the current position
      */
-    Renderer value(@Nullable Date value) throws RenderingException;
-
-    /**
-     * Adds the specified value.
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws RenderingException if no value is allowed at the current position
-     */
-    Renderer value(@Nullable Calendar value) throws RenderingException;
-    
-    /**
-     * Adds the specified value.
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws RenderingException if no value is allowed at the current position
-     */
-    Renderer value(@Nullable Enum<?> value) throws RenderingException;
-
-    /**
-     * Adds the specified value.
-     * 
-     * @param value the value being added
-     * @return this
-     * @throws RenderingException if no value is allowed at the current position
-     */
     Renderer value(@Nullable CharSequence value) throws RenderingException;
-    
-    /**
-     * Encodes the specified value using base64 and adds the result as a string.
-     * 
-     * @since 1.0
-     * @param value the value to be added
-     * @return this
-     * @throws RenderingException if no value is allowed at the current position
-     */
-    Renderer value(@Nullable byte[] value) throws RenderingException;
-    
-    /**
-     * Encodes the data provided by the specified stream using base64 and
-     * stores the result as a string. The stream will be closed after this method
-     * returns.
-     * 
-     * @since 1.0
-     * @param value the value to be added
-     * @return this
-     * @throws RenderingException if no value is allowed at the current position or
-     *         reading from the stream failed
-     */
-    Renderer value(@Nullable InputStream value) throws RenderingException;
     
     /**
      * Adds the specified values.

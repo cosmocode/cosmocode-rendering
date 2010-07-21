@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.ImmutableSortedMap.Builder;
 
@@ -50,6 +51,7 @@ final class Mappings {
         builder.put(Date.class, DateValueRenderer.INSTANCE);
         builder.put(Enum.class, EnumValueRenderer.INSTANCE);
         builder.put(InputStream.class, InputStreamValueRenderer.INSTANCE);
+        builder.put(Multimap.class, MultimapValueRenderer.INSTANCE);
         builder.put(Object.class, ObjectValueRenderer.INSTANCE);
         
         DEFAULT = newMapping(builder.build());
@@ -92,6 +94,11 @@ final class Mappings {
      *     <td>{@link InputStream}</td>
      *     <td>{@link InputStreamValueRenderer}</td>
      *     <td>collects all bytes and delegates to {@link Renderer#value(byte[])}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Multimap}</td>
+     *     <td>{@link MultimapValueRenderer}</td>
+     *     <td>uses {@link Multimap#asMap()}</td>
      *   </tr>
      *   <tr>
      *     <td>{@link Object}</td>

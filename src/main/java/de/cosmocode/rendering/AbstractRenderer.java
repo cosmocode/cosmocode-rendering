@@ -16,7 +16,6 @@
 
 package de.cosmocode.rendering;
 
-import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -25,7 +24,6 @@ import java.util.Map.Entry;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Multimap;
 
 /**
  * Abstract base implementation of the {@link Renderer} interface.
@@ -72,12 +70,6 @@ public abstract class AbstractRenderer implements Renderer {
             return value(Boolean.class.cast(value).booleanValue());
         } else if (value instanceof Renderable) {
             return value(Renderable.class.cast(value), defaultLevel());
-        } else if (value instanceof Date) {
-            return value(Date.class.cast(value));
-        } else if (value.getClass().isEnum()) {
-            return value(Enum.class.cast(value));
-        } else if (value instanceof Calendar) {
-            return value(Calendar.class.cast(value));
         } else {
             return compoundValue(value);
         }
@@ -91,17 +83,17 @@ public abstract class AbstractRenderer implements Renderer {
      */
     protected Renderer numberValue(Number value) {
         if (value instanceof Integer) {
-            return value(Integer.class.cast(value).intValue());
+            return value(Integer.class.cast(value).longValue());
         } else if (value instanceof Long) {
             return value(Long.class.cast(value).longValue());
         } else if (value instanceof Double) {
             return value(Double.class.cast(value).doubleValue());
         } else if (value instanceof Float) {
-            return value(Float.class.cast(value).floatValue());
+            return value(Float.class.cast(value).doubleValue());
         } else if (value instanceof Byte) {
-            return value(Byte.class.cast(value).byteValue());
+            return value(Byte.class.cast(value).longValue());
         } else if (value instanceof Short) {
-            return value(Short.class.cast(value).shortValue());
+            return value(Short.class.cast(value).longValue());
         } else {
             return unknownValue(value);
         }
@@ -122,8 +114,6 @@ public abstract class AbstractRenderer implements Renderer {
             return value(Iterator.class.cast(value));
         } else if (value instanceof Map<?, ?>) {
             return value(Map.class.cast(value));
-        } else if (value instanceof Multimap<?, ?>) {
-            return value(Multimap.class.cast(value).asMap());
         } else {
             return unknownValue(value);
         }
@@ -141,21 +131,21 @@ public abstract class AbstractRenderer implements Renderer {
      * @return this
      */
     protected Renderer unknownValue(Object value) {
-        final ValueRenderer<Object> renderer = mapping.find(value.getClass());
-        Preconditions.checkNotNull(renderer, "Renderer");
+        final Class<? extends Object> type = value.getClass();
+        final ValueRenderer<Object> renderer = mapping.find(type);
+        Preconditions.checkNotNull(renderer, "No renderer registered for {}", type);
         renderer.render(value, this);
         return this;
     }
     
-    private <T> Renderer value(Class<T> type, T value) {
-        final ValueRenderer<T> renderer = mapping.find(type);
-        // should not happen as long as Object & String are supported
-        Preconditions.checkNotNull(renderer, "Renderer");
-        // let the renderer take care of nulls
-        renderer.render(value, this);
-        return this;
-        
-    }
+//    private <T> Renderer value(Class<T> type, T value) {
+//        final ValueRenderer<T> renderer = mapping.find(type);
+//        // should not happen as long as Object & String are supported
+//        Preconditions.checkNotNull(renderer, "No renderer registered for {}", type);
+//        // let the renderer take care of nulls
+//        renderer.render(value, this);
+//        return this;
+//    }
     
     @Override
     public <T> Renderer value(T value, ValueRenderer<? super T> renderer) throws RenderingException {
@@ -164,30 +154,30 @@ public abstract class AbstractRenderer implements Renderer {
         return this;
     };
     
-    @Override
-    public Renderer value(Date value) throws RenderingException {
-        return value(Date.class, value);
-    }
-    
-    @Override
-    public Renderer value(Calendar value) throws RenderingException {
-        return value(Calendar.class, value);
-    }
-    
-    @Override
-    public Renderer value(Enum<?> value) throws RenderingException {
-        return value(Enum.class, value);
-    }
-    
-    @Override
-    public Renderer value(byte[] value) throws RenderingException {
-        return value(byte[].class, value);
-    }
-    
-    @Override
-    public Renderer value(InputStream value) throws RenderingException {
-        return value(InputStream.class, value);
-    }
+//    @Override
+//    public Renderer value(Date value) throws RenderingException {
+//        return value(Date.class, value);
+//    }
+//    
+//    @Override
+//    public Renderer value(Calendar value) throws RenderingException {
+//        return value(Calendar.class, value);
+//    }
+//    
+//    @Override
+//    public Renderer value(Enum<?> value) throws RenderingException {
+//        return value(Enum.class, value);
+//    }
+//    
+//    @Override
+//    public Renderer value(byte[] value) throws RenderingException {
+//        return value(byte[].class, value);
+//    }
+//    
+//    @Override
+//    public Renderer value(InputStream value) throws RenderingException {
+//        return value(InputStream.class, value);
+//    }
     
     @Override
     public Renderer values(Object... values) throws RenderingException {
