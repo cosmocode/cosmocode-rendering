@@ -121,7 +121,7 @@ final class Mappings {
      * @return a mutable mapping
      */
     public static Mapping newMapping() {
-        return newMapping(Maps.newTreeMap(DEFAULT));
+        return newMapping(Maps.newTreeMap(Mappings.defaultMapping()));
     }
 
     /**
