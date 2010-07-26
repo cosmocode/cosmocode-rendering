@@ -64,13 +64,10 @@ public final class SuperClassMapping extends ForwardingMap<Class<?>, ValueRender
     }
     
     private ValueRenderer<?> doFind(Class<?> type) {
+        if (Object.class.equals(type)) return null;
         final ValueRenderer<?> renderer = renderers.get(type);
         if (renderer == null) {
-            if (Object.class.equals(type)) {
-                return null;
-            } else {
-                return doFind(type.getSuperclass());
-            }
+            return doFind(type.getSuperclass());
         } else {
             return renderer;
         }
@@ -78,7 +75,7 @@ public final class SuperClassMapping extends ForwardingMap<Class<?>, ValueRender
 
     // traverses the inheritence tree in level order
     private ValueRenderer<?> doFind(Collection<Class<?>> interfaces) {
-        if (interfaces.isEmpty()) return null;
+        if (interfaces.isEmpty()) return renderers.get(Object.class);
         for (Class<?> type : interfaces) {
             final ValueRenderer<?> renderer = renderers.get(type);
             if (renderer == null) continue;

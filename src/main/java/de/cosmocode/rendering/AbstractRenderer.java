@@ -91,7 +91,7 @@ public abstract class AbstractRenderer implements Renderer {
     protected Renderer unknownValue(Object value) {
         final Class<? extends Object> type = value.getClass();
         final ValueRenderer<Object> renderer = mapping.find(type);
-        Preconditions.checkNotNull(renderer, "No renderer registered for {}", type);
+        Preconditions.checkNotNull(renderer, "No renderer registered for %s", type);
         return value(value, renderer);
     }
     
