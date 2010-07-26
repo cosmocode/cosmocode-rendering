@@ -16,7 +16,7 @@
 
 package de.cosmocode.rendering;
 
-import java.util.SortedMap;
+import java.util.Map;
 
 /**
  * A mapping of {@link Class} to {@link ValueRenderer}
@@ -26,7 +26,7 @@ import java.util.SortedMap;
  * @since 1.1
  * @author Willi Schoenborn
  */
-public interface Mapping extends SortedMap<Class<?>, ValueRenderer<?>> {
+public interface Mapping extends Map<Class<?>, ValueRenderer<?>> {
 
     /**
      * Finds a {@link ValueRenderer} capable of rendering the given type.

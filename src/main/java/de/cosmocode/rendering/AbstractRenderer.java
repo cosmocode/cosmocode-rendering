@@ -62,58 +62,16 @@ public abstract class AbstractRenderer implements Renderer {
     public Renderer value(Object value) throws RenderingException {
         if (value == null) {
             return nullValue();
-        } else if (value instanceof CharSequence) {
-            return value(CharSequence.class.cast(value));
-        } else if (value instanceof Number) {
-            return numberValue(Number.class.cast(value));
-        } else if (value instanceof Boolean) {
-            return value(Boolean.class.cast(value).booleanValue());
         } else if (value instanceof Renderable) {
             return value(Renderable.class.cast(value), defaultLevel());
-        } else {
-            return compoundValue(value);
-        }
-    }
-    
-    /**
-     * Groups all {@link Number} values.
-     * 
-     * @param value the {@link Number} value
-     * @return this
-     */
-    protected Renderer numberValue(Number value) {
-        if (value instanceof Integer) {
-            return value(Integer.class.cast(value).longValue());
+        } else if (value instanceof CharSequence) {
+            return value(CharSequence.class.cast(value));
+        } else if (value instanceof Boolean) {
+            return value(Boolean.class.cast(value).booleanValue());
         } else if (value instanceof Long) {
             return value(Long.class.cast(value).longValue());
         } else if (value instanceof Double) {
             return value(Double.class.cast(value).doubleValue());
-        } else if (value instanceof Float) {
-            return value(Float.class.cast(value).doubleValue());
-        } else if (value instanceof Byte) {
-            return value(Byte.class.cast(value).longValue());
-        } else if (value instanceof Short) {
-            return value(Short.class.cast(value).longValue());
-        } else {
-            return unknownValue(value);
-        }
-    }
-
-    /**
-     * Groups all kind of collection style values.
-     * 
-     * @param value the untyped value
-     * @return this
-     */
-    protected Renderer compoundValue(Object value) {
-        if (value.getClass().isArray()) {
-            return value(Object[].class.cast(value));
-        } else if (value instanceof Iterable<?>) {
-            return value(Iterable.class.cast(value));
-        } else if (value instanceof Iterator<?>) {
-            return value(Iterator.class.cast(value));
-        } else if (value instanceof Map<?, ?>) {
-            return value(Map.class.cast(value));
         } else {
             return unknownValue(value);
         }
@@ -134,18 +92,8 @@ public abstract class AbstractRenderer implements Renderer {
         final Class<? extends Object> type = value.getClass();
         final ValueRenderer<Object> renderer = mapping.find(type);
         Preconditions.checkNotNull(renderer, "No renderer registered for {}", type);
-        renderer.render(value, this);
-        return this;
+        return value(value, renderer);
     }
-    
-//    private <T> Renderer value(Class<T> type, T value) {
-//        final ValueRenderer<T> renderer = mapping.find(type);
-//        // should not happen as long as Object & String are supported
-//        Preconditions.checkNotNull(renderer, "No renderer registered for {}", type);
-//        // let the renderer take care of nulls
-//        renderer.render(value, this);
-//        return this;
-//    }
     
     @Override
     public <T> Renderer value(T value, ValueRenderer<? super T> renderer) throws RenderingException {
@@ -153,31 +101,6 @@ public abstract class AbstractRenderer implements Renderer {
         renderer.render(value, this);
         return this;
     };
-    
-//    @Override
-//    public Renderer value(Date value) throws RenderingException {
-//        return value(Date.class, value);
-//    }
-//    
-//    @Override
-//    public Renderer value(Calendar value) throws RenderingException {
-//        return value(Calendar.class, value);
-//    }
-//    
-//    @Override
-//    public Renderer value(Enum<?> value) throws RenderingException {
-//        return value(Enum.class, value);
-//    }
-//    
-//    @Override
-//    public Renderer value(byte[] value) throws RenderingException {
-//        return value(byte[].class, value);
-//    }
-//    
-//    @Override
-//    public Renderer value(InputStream value) throws RenderingException {
-//        return value(InputStream.class, value);
-//    }
     
     @Override
     public Renderer values(Object... values) throws RenderingException {

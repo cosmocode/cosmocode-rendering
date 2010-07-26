@@ -19,18 +19,13 @@ package de.cosmocode.rendering;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.Map.Entry;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
-import com.google.common.collect.ImmutableSortedMap.Builder;
-
-import de.cosmocode.commons.reflect.Reflection;
+import com.google.common.collect.ImmutableMap.Builder;
 
 /**
  * Utility class for {@link Mapping}s.
@@ -43,16 +38,23 @@ final class Mappings {
     private static final Mapping DEFAULT;
 
     static {
-        final Ordering<Class<?>> ordering = Reflection.orderByHierarchy();
-        final Builder<Class<?>, ValueRenderer<?>> builder = ImmutableSortedMap.orderedBy(ordering);
+        final Builder<Class<?>, ValueRenderer<?>> builder = ImmutableMap.builder();
 
+        builder.put(Object[].class, ArrayValueRenderer.INSTANCE);
         builder.put(byte[].class, ByteArrayValueRenderer.INSTANCE);
+        builder.put(byte.class, ByteValueRenderer.INSTANCE);
         builder.put(Calendar.class, CalendarValueRenderer.INSTANCE);
         builder.put(Date.class, DateValueRenderer.INSTANCE);
         builder.put(Enum.class, EnumValueRenderer.INSTANCE);
+        builder.put(float.class, FloatValueRenderer.INSTANCE);
         builder.put(InputStream.class, InputStreamValueRenderer.INSTANCE);
+        builder.put(int.class, IntegerValueRenderer.INSTANCE);
+        builder.put(Iterable.class, IterableValueRenderer.INSTANCE);
+        builder.put(Iterator.class, IteratorValueRenderer.INSTANCE);
+        builder.put(Map.class, MapValueRenderer.INSTANCE);
         builder.put(Multimap.class, MultimapValueRenderer.INSTANCE);
         builder.put(Object.class, ObjectValueRenderer.INSTANCE);
+        builder.put(short.class, ShortValueRenderer.INSTANCE);
         
         DEFAULT = newMapping(builder.build());
     }
@@ -71,9 +73,19 @@ final class Mappings {
      *     <th>Description</th>
      *   </tr>
      *   <tr>
+     *     <td>{@code Object[]}</td>
+     *     <td>{@link ArrayValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(Object...)}</td>
+     *   </tr>
+     *   <tr>
      *     <td>{@code byte[]}</td>
      *     <td>{@link ByteArrayValueRenderer}</td>
      *     <td>produces an UTF-8 Base64 encoded String</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Byte}</td>
+     *     <td>{@link ByteValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(long)}</td>
      *   </tr>
      *   <tr>
      *     <td>{@link Calendar}</td>
@@ -91,9 +103,34 @@ final class Mappings {
      *     <td>uses {@link Enum#name()}</td>
      *   </tr>
      *   <tr>
+     *     <td>{@link Float}</td>
+     *     <td>{@link FloatValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(double)}</td>
+     *   </tr>
+     *   <tr>
      *     <td>{@link InputStream}</td>
      *     <td>{@link InputStreamValueRenderer}</td>
      *     <td>collects all bytes and delegates to {@link Renderer#value(byte[])}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Integer}</td>
+     *     <td>{@link IntegerValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(long)}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Iterable}</td>
+     *     <td>{@link IterableValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(Iterable)}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Iterator}</td>
+     *     <td>{@link IteratorValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(Iterator)}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Map}</td>
+     *     <td>{@link MapValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(Map)}</td>
      *   </tr>
      *   <tr>
      *     <td>{@link Multimap}</td>
@@ -104,6 +141,11 @@ final class Mappings {
      *     <td>{@link Object}</td>
      *     <td>{@link ObjectValueRenderer}</td>
      *     <td>uses {@link Object#toString()}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@code Short}</td>
+     *     <td>{@link ShortValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(long)}</td>
      *   </tr>
      * </table>
      * 
@@ -121,7 +163,7 @@ final class Mappings {
      * @return a mutable mapping
      */
     public static Mapping newMapping() {
-        return newMapping(Maps.newTreeMap(Mappings.defaultMapping()));
+        return newMapping(Maps.newHashMap(Mappings.defaultMapping()));
     }
 
     /**
@@ -134,53 +176,12 @@ final class Mappings {
      * @return a mapping backed by the given map
      * @throws NullPointerException if map is null
      */
-    public static Mapping newMapping(SortedMap<Class<?>, ValueRenderer<?>> map) {
+    public static Mapping newMapping(Map<Class<?>, ValueRenderer<?>> map) {
         if (map instanceof Mapping) {
             return Mapping.class.cast(map);
         } else {
-            return new DefaultMapping(map);
+            return new SuperClassMapping(map);
         }
     }
     
-    /**
-     * Finds the most appropriate {@link ValueRenderer} in the given map for the supplied type.
-     * This is a reusable method for {@link Mapping} implementation.
-     * 
-     * @since 1.1
-     * @param <T> the generic class type
-     * @param renderers the map to look in
-     * @param type the type to look for
-     * @return the {@link ValueRenderer} capable of rendering instances of T or null if no renderer was found
-     * @throws NullPointerException if renderers or type is null
-     */
-    static <T> ValueRenderer<T> find(Map<Class<?>, ValueRenderer<?>> renderers, Class<? extends T> type) {
-        Preconditions.checkNotNull(renderers, "Renderers");
-        return find(renderers.entrySet(), type);
-    }
-
-    
-    /**
-     * Finds the most appropriate {@link ValueRenderer} in the given map for the supplied type.
-     * This is a reusable method for {@link Mapping} implementation.
-     * 
-     * @since 1.1
-     * @param <T> the generic class type
-     * @param renderers the entries to look in
-     * @param type the type to look for
-     * @return the {@link ValueRenderer} capable of rendering instances of T or null if no renderer was found
-     * @throws NullPointerException if renderers or type is null
-     */
-    static <T> ValueRenderer<T> find(Iterable<Entry<Class<?>, ValueRenderer<?>>> renderers, Class<? extends T> type) {
-        Preconditions.checkNotNull(renderers, "Renderers");
-        Preconditions.checkNotNull(type, "Type");
-        for (Entry<Class<?>, ValueRenderer<?>> entry : renderers) {
-            if (entry.getKey().isAssignableFrom(type)) {
-                @SuppressWarnings("unchecked")
-                final ValueRenderer<T> renderer = (ValueRenderer<T>) entry.getValue();
-                return renderer;
-            }
-        }
-        return null;
-    }
-
 }

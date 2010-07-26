@@ -20,21 +20,29 @@ import java.util.SortedMap;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingSortedMap;
+import com.google.common.collect.Maps;
+
+import de.cosmocode.commons.reflect.Reflection;
 
 /**
- * Default {@link Mapping} implementation.
+ * {@link Mapping} implementation based on a {@link SortedMap} which assumes the underlying
+ * map using a hierarchy based sorting as provided by {@link Reflection#orderByHierarchy()}.
  *
  * @since 1.1
  * @author Willi Schoenborn
  */
-final class DefaultMapping extends ForwardingSortedMap<Class<?>, ValueRenderer<?>> implements Mapping {
+public final class SortedMapping extends ForwardingSortedMap<Class<?>, ValueRenderer<?>> implements Mapping {
 
     private final SortedMap<Class<?>, ValueRenderer<?>> renderers;
 
-    public DefaultMapping(SortedMap<Class<?>, ValueRenderer<?>> renderers) {
+    public SortedMapping() {
+        this.renderers = Maps.newTreeMap(Reflection.orderByHierarchy());
+    }
+    
+    public SortedMapping(SortedMap<Class<?>, ValueRenderer<?>> renderers) {
         this.renderers = Preconditions.checkNotNull(renderers, "Renderers");
     }
-
+    
     @Override
     protected SortedMap<Class<?>, ValueRenderer<?>> delegate() {
         return renderers;
@@ -43,7 +51,14 @@ final class DefaultMapping extends ForwardingSortedMap<Class<?>, ValueRenderer<?
     @Override
     public <T> ValueRenderer<T> find(Class<? extends T> type) {
         Preconditions.checkNotNull(type, "Type");
-        return Mappings.find(renderers, type);
+        for (Entry<Class<?>, ValueRenderer<?>> entry : renderers.entrySet()) {
+            if (entry.getKey().isAssignableFrom(type)) {
+                @SuppressWarnings("unchecked")
+                final ValueRenderer<T> renderer = (ValueRenderer<T>) entry.getValue();
+                return renderer;
+            }
+        }
+        return null;
     }
-    
+
 }
