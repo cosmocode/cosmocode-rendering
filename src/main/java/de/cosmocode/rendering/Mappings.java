@@ -33,7 +33,7 @@ import com.google.common.collect.ImmutableMap.Builder;
  * @since 1.1
  * @author Willi Schoenborn
  */
-final class Mappings {
+public final class Mappings {
 
     private static final Mapping DEFAULT;
 
