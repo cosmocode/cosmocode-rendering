@@ -16,13 +16,9 @@
 
 package de.cosmocode.rendering;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.ForwardingMap;
 
 import de.cosmocode.commons.reflect.Reflection;
@@ -50,11 +46,10 @@ public final class SuperClassMapping extends ForwardingMap<Class<?>, ValueRender
     @Override
     public <T> ValueRenderer<T> find(Class<? extends T> type) {
         Preconditions.checkNotNull(type, "Type");
-        final ValueRenderer<?> classRenderer = doFind(type);
+        final ValueRenderer<?> classRenderer = findForClass(type);
         if (classRenderer == null) {
-            final Collection<Class<?>> interfaces = Arrays.asList(type.getInterfaces());
             @SuppressWarnings("unchecked")
-            final ValueRenderer<T> renderer = (ValueRenderer<T>) doFind(interfaces);
+            final ValueRenderer<T> renderer = (ValueRenderer<T>) findForInterface(type);
             return renderer;
         } else {
             @SuppressWarnings("unchecked")
@@ -63,32 +58,25 @@ public final class SuperClassMapping extends ForwardingMap<Class<?>, ValueRender
         }
     }
     
-    private ValueRenderer<?> doFind(Class<?> type) {
+    private ValueRenderer<?> findForClass(Class<?> type) {
         if (Object.class.equals(type)) return null;
         final ValueRenderer<?> renderer = renderers.get(type);
         if (renderer == null) {
-            return doFind(type.getSuperclass());
+            return findForClass(type.getSuperclass());
         } else {
             return renderer;
         }
     }
 
     // traverses the inheritence tree in level order
-    private ValueRenderer<?> doFind(Collection<Class<?>> interfaces) {
-        if (interfaces.isEmpty()) return renderers.get(Object.class);
-        for (Class<?> type : interfaces) {
-            final ValueRenderer<?> renderer = renderers.get(type);
+    private ValueRenderer<?> findForInterface(Class<?> type) {
+        final Iterable<Class<?>> interfaces = Reflection.getAllInterfaces(type);
+        for (Class<?> iface : interfaces) {
+            final ValueRenderer<?> renderer = renderers.get(iface);
             if (renderer == null) continue;
             return renderer;
         }
-        return doFind(transform(interfaces));
-    }
-    
-    private Collection<Class<?>> transform(Collection<Class<?>> interfaces) {
-        // uses the super class of each type
-        final Collection<Class<?>> transformed = Collections2.transform(interfaces, Reflection.getSuperClass());
-        // removes all nulls (no supertypes)
-        return Collections2.filter(transformed, Predicates.notNull());
+        return renderers.get(Object.class);
     }
     
 }
