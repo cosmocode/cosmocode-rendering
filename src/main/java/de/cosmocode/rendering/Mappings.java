@@ -42,19 +42,24 @@ public final class Mappings {
 
         builder.put(Object[].class, ArrayValueRenderer.INSTANCE);
         builder.put(byte[].class, ByteArrayValueRenderer.INSTANCE);
+        builder.put(Byte[].class, ByteArrayValueRenderer.INSTANCE);
         builder.put(byte.class, ByteValueRenderer.INSTANCE);
+        builder.put(Byte.class, ByteValueRenderer.INSTANCE);
         builder.put(Calendar.class, CalendarValueRenderer.INSTANCE);
         builder.put(Date.class, DateValueRenderer.INSTANCE);
         builder.put(Enum.class, EnumValueRenderer.INSTANCE);
         builder.put(float.class, FloatValueRenderer.INSTANCE);
+        builder.put(Float.class, FloatValueRenderer.INSTANCE);
         builder.put(InputStream.class, InputStreamValueRenderer.INSTANCE);
         builder.put(int.class, IntegerValueRenderer.INSTANCE);
+        builder.put(Integer.class, IntegerValueRenderer.INSTANCE);
         builder.put(Iterable.class, IterableValueRenderer.INSTANCE);
         builder.put(Iterator.class, IteratorValueRenderer.INSTANCE);
         builder.put(Map.class, MapValueRenderer.INSTANCE);
         builder.put(Multimap.class, MultimapValueRenderer.INSTANCE);
         builder.put(Object.class, ObjectValueRenderer.INSTANCE);
         builder.put(short.class, ShortValueRenderer.INSTANCE);
+        builder.put(Short.class, ShortValueRenderer.INSTANCE);
         
         DEFAULT = newMapping(builder.build());
     }
