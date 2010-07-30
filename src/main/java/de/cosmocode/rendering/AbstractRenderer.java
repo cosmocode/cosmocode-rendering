@@ -87,8 +87,9 @@ public abstract class AbstractRenderer implements Renderer {
      * 
      * @param value the value of an unknown type, is never null
      * @return this
+     * @throws RenderingException if rendering failed
      */
-    protected Renderer unknownValue(Object value) {
+    protected Renderer unknownValue(Object value) throws RenderingException {
         final Class<? extends Object> type = value.getClass();
         final ValueRenderer<Object> renderer = mapping.find(type);
         Preconditions.checkNotNull(renderer, "No renderer registered for %s", type);
