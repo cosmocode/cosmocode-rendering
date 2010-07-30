@@ -20,7 +20,9 @@ import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
@@ -89,6 +91,26 @@ public final class DefaultMappingTest implements UnitProvider<Mapping> {
         Assert.assertTrue(iterator.hasNext());
         Assert.assertSame(Iterable.class, iterator.next());
         Assert.assertFalse(iterator.hasNext());
+    }
+    
+    /**
+     * Tests with a list class.
+     * 
+     * @since
+     */
+    @Test
+    public void list() {
+        Assert.assertSame(IterableValueRenderer.INSTANCE, unit().find(Arrays.asList().getClass()));
+    }
+    
+    /**
+     * Tests with a set class.
+     * 
+     * @since
+     */
+    @Test
+    public void set() {
+        Assert.assertSame(IterableValueRenderer.INSTANCE, unit().find(EnumSet.class));
     }
 
 }
