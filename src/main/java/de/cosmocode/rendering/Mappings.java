@@ -17,10 +17,18 @@
 package de.cosmocode.rendering;
 
 import java.io.InputStream;
+import java.util.AbstractCollection;
+import java.util.AbstractList;
+import java.util.AbstractMap;
+import java.util.AbstractSet;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -55,6 +63,16 @@ public final class Mappings {
         builder.put(Multimap.class, MultimapValueRenderer.INSTANCE);
         builder.put(Object.class, ObjectValueRenderer.INSTANCE);
         builder.put(Short.class, ShortValueRenderer.INSTANCE);
+        
+        // concrete re-mapping to reduce iteration overhead 
+        builder.put(Collection.class, IterableValueRenderer.INSTANCE);
+        builder.put(AbstractCollection.class, IterableValueRenderer.INSTANCE);
+        builder.put(List.class, IterableValueRenderer.INSTANCE);
+        builder.put(AbstractList.class, IterableValueRenderer.INSTANCE);
+        builder.put(ArrayList.class, IterableValueRenderer.INSTANCE);
+        builder.put(Set.class, IterableValueRenderer.INSTANCE);
+        builder.put(AbstractSet.class, IterableValueRenderer.INSTANCE);
+        builder.put(AbstractMap.class, MapValueRenderer.INSTANCE);
         
         DEFAULT = newMapping(builder.build());
     }
