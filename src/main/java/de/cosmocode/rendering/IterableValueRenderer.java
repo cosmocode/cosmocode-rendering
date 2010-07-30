@@ -16,6 +16,8 @@
 
 package de.cosmocode.rendering;
 
+import de.cosmocode.commons.Enums;
+
 /**
  * {@link Iterable} {@link ValueRenderer}.
  *
@@ -33,6 +35,11 @@ public enum IterableValueRenderer implements ValueRenderer<Iterable<?>> {
         } else {
             renderer.value(value);
         }        
+    }
+    
+    @Override
+    public String toString() {
+        return Enums.toString(this);
     }
     
 }

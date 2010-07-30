@@ -22,6 +22,8 @@ import java.io.InputStream;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Closeables;
 
+import de.cosmocode.commons.Enums;
+
 /**
  * Default {@link InputStream} {@link ValueRenderer}.
  *
@@ -45,6 +47,11 @@ public enum InputStreamValueRenderer implements ValueRenderer<InputStream> {
                 Closeables.closeQuietly(value);
             }
         }
+    }
+    
+    @Override
+    public String toString() {
+        return Enums.toString(this);
     }
     
 }

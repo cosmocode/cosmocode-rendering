@@ -18,6 +18,8 @@ package de.cosmocode.rendering;
 
 import java.util.Map;
 
+import de.cosmocode.commons.Enums;
+
 /**
  * {@link Map} {@link ValueRenderer}.
  *
@@ -35,6 +37,11 @@ public enum MapValueRenderer implements ValueRenderer<Map<?, ?>> {
         } else {
             renderer.value(value);
         }
+    }
+    
+    @Override
+    public String toString() {
+        return Enums.toString(this);
     }
     
 }

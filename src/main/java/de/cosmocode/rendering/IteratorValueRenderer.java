@@ -18,6 +18,8 @@ package de.cosmocode.rendering;
 
 import java.util.Iterator;
 
+import de.cosmocode.commons.Enums;
+
 /**
  * {@link Iterator} {@link ValueRenderer}.
  *
@@ -33,8 +35,13 @@ public enum IteratorValueRenderer implements ValueRenderer<Iterator<?>> {
         if (value == null) {
             renderer.nullValue();
         } else {
-            renderer.value(renderer);
+            renderer.value(value);
         }
+    }
+    
+    @Override
+    public String toString() {
+        return Enums.toString(this);
     }
     
 }

@@ -18,6 +18,9 @@ package de.cosmocode.rendering;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingMap;
 
@@ -31,9 +34,11 @@ import de.cosmocode.commons.reflect.Reflection;
  * @author Willi Schoenborn
  */
 public final class SuperClassMapping extends ForwardingMap<Class<?>, ValueRenderer<?>> implements Mapping {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(SuperClassMapping.class);
 
     private final Map<Class<?>, ValueRenderer<?>> renderers;
-
+    
     public SuperClassMapping(Map<Class<?>, ValueRenderer<?>> renderers) {
         this.renderers = Preconditions.checkNotNull(renderers, "Renderers");
     }
@@ -46,37 +51,20 @@ public final class SuperClassMapping extends ForwardingMap<Class<?>, ValueRender
     @Override
     public <T> ValueRenderer<T> find(Class<? extends T> type) {
         Preconditions.checkNotNull(type, "Type");
-        final ValueRenderer<?> classRenderer = findForClass(type);
-        if (classRenderer == null) {
+        
+        for (Class<?> superType : Reflection.getAllSuperTypes(type)) {
+            if (Object.class.equals(superType)) continue;
+            LOG.trace("Considering {}", superType);
+            final ValueRenderer<?> found = renderers.get(superType);
+            if (found == null) continue;
             @SuppressWarnings("unchecked")
-            final ValueRenderer<T> renderer = (ValueRenderer<T>) findForInterface(type);
-            return renderer;
-        } else {
-            @SuppressWarnings("unchecked")
-            final ValueRenderer<T> renderer = (ValueRenderer<T>) classRenderer;
+            final ValueRenderer<T> renderer = (ValueRenderer<T>) found;
             return renderer;
         }
-    }
-    
-    private ValueRenderer<?> findForClass(Class<?> type) {
-        if (Object.class.equals(type)) return null;
-        final ValueRenderer<?> renderer = renderers.get(type);
-        if (renderer == null) {
-            return findForClass(type.getSuperclass());
-        } else {
-            return renderer;
-        }
-    }
 
-    // traverses the inheritence tree in level order
-    private ValueRenderer<?> findForInterface(Class<?> type) {
-        final Iterable<Class<?>> interfaces = Reflection.getAllInterfaces(type);
-        for (Class<?> iface : interfaces) {
-            final ValueRenderer<?> renderer = renderers.get(iface);
-            if (renderer == null) continue;
-            return renderer;
-        }
-        return renderers.get(Object.class);
+        @SuppressWarnings("unchecked")
+        final ValueRenderer<T> renderer = (ValueRenderer<T>) renderers.get(Object.class);
+        return renderer;
     }
     
 }

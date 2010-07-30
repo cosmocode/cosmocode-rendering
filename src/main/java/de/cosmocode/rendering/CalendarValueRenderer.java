@@ -18,6 +18,8 @@ package de.cosmocode.rendering;
 
 import java.util.Calendar;
 
+import de.cosmocode.commons.Enums;
+
 /**
  * Default {@link Calendar} {@link ValueRenderer}.
  *
@@ -35,6 +37,11 @@ public enum CalendarValueRenderer implements ValueRenderer<Calendar> {
         } else {
             renderer.value(value.getTime());
         }
+    }
+    
+    @Override
+    public String toString() {
+        return Enums.toString(this);
     }
     
 }

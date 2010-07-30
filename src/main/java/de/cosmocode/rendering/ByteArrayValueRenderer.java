@@ -20,6 +20,8 @@ import org.apache.commons.codec.binary.Base64;
 
 import com.google.common.base.Charsets;
 
+import de.cosmocode.commons.Enums;
+
 /**
  * Default {@code byte[]} {@link ValueRenderer}.
  *
@@ -37,6 +39,11 @@ public enum ByteArrayValueRenderer implements ValueRenderer<byte[]> {
         } else {
             renderer.value(new String(Base64.encodeBase64(value), Charsets.UTF_8));
         }
+    }
+    
+    @Override
+    public String toString() {
+        return Enums.toString(this);
     }
     
 }

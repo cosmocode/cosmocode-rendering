@@ -16,6 +16,8 @@
 
 package de.cosmocode.rendering;
 
+import de.cosmocode.commons.Enums;
+
 /**
  * {@link Float} {@link ValueRenderer}.
  *
@@ -33,6 +35,11 @@ public enum FloatValueRenderer implements ValueRenderer<Float> {
         } else {
             renderer.value(value.doubleValue());
         }
+    }
+    
+    @Override
+    public String toString() {
+        return Enums.toString(this);
     }
     
 }

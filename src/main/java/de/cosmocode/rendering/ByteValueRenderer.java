@@ -16,6 +16,8 @@
 
 package de.cosmocode.rendering;
 
+import de.cosmocode.commons.Enums;
+
 /**
  * {@link Byte} {@link ValueRenderer}.
  *
@@ -33,6 +35,11 @@ public enum ByteValueRenderer implements ValueRenderer<Byte> {
         } else {
             renderer.value(value.longValue());
         }
+    }
+    
+    @Override
+    public String toString() {
+        return Enums.toString(this);
     }
     
 }

@@ -16,6 +16,8 @@
 
 package de.cosmocode.rendering;
 
+import de.cosmocode.commons.Enums;
+
 /**
  * Default {@link Object} {@link ValueRenderer}.
  *
@@ -33,6 +35,11 @@ public enum ObjectValueRenderer implements ValueRenderer<Object> {
         } else {
             renderer.value(value.toString());
         }
+    }
+    
+    @Override
+    public String toString() {
+        return Enums.toString(this);
     }
     
 }
