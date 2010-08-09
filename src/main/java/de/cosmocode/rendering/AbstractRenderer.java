@@ -16,8 +16,6 @@
 
 package de.cosmocode.rendering;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,11 +26,6 @@ import com.google.common.collect.Iterators;
 /**
  * Abstract base implementation of the {@link Renderer} interface.
  * 
- * <p>
- *   Implementation note: Enums are added using their {@link Enum#name()} method.
- *   {@link Date} and {@link Calendar} will converted to unix timestamps (seconds).
- * </p>
- *
  * @author Willi Schoenborn
  */
 public abstract class AbstractRenderer implements Renderer {
