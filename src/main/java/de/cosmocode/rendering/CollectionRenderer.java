@@ -65,7 +65,7 @@ public final class CollectionRenderer extends AbstractRenderer {
     }
     
     private boolean peekIsMap() {
-        return stack.peek() instanceof LinkedMap;
+        return stack.peek() instanceof Map<?, ?>;
     }
     
     private Renderer append(Object value) {
