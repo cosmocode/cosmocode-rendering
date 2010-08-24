@@ -52,6 +52,12 @@ public final class SuperClassMapping extends ForwardingMap<Class<?>, ValueRender
     public <T> ValueRenderer<T> find(Class<? extends T> type) {
         Preconditions.checkNotNull(type, "Type");
         
+        if (type.isArray()) {
+            @SuppressWarnings("unchecked")
+            final ValueRenderer<T> renderer = (ValueRenderer<T>) renderers.get(Object[].class);
+            return renderer;
+        }
+        
         for (Class<?> superType : Reflection.getAllSuperTypes(type)) {
             if (Object.class.equals(superType)) continue;
             LOG.trace("Considering {}", superType);
