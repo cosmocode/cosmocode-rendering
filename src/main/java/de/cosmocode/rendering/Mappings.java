@@ -31,9 +31,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.ImmutableMap.Builder;
 
 /**
  * Utility class for {@link Mapping}s.
