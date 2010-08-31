@@ -39,7 +39,16 @@ public abstract class AbstractRenderer implements Renderer {
     
     @Override
     public Renderer key(Object key) throws RenderingException {
-        return key(key == null ? null : key.toString());
+        if (key instanceof Enum<?>) {
+            return key(Enum.class.cast(key));
+        } else {
+            return key(key == null ? null : key.toString());
+        }
+    }
+    
+    @Override
+    public Renderer key(Enum<?> key) throws RenderingException {
+        return key(key == null ? null : key.name());
     }
 
     /**

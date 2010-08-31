@@ -129,6 +129,16 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if currently not inside a map
      */
     Renderer key(@Nullable Object key) throws RenderingException;
+    
+    /**
+     * Adds the specified key.
+     * 
+     * @since 1.2
+     * @param key the key to be added
+     * @return this
+     * @throws RenderingException if currently not inside a map
+     */
+    Renderer key(@Nullable Enum<?> key) throws RenderingException;
 
     /**
      * Changes the {@link Class} to {@link ValueRenderer} mapping of this

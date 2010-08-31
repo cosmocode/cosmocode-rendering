@@ -64,6 +64,12 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
         delegate().key(key);
         return this;
     }
+    
+    @Override
+    public Renderer key(Enum<?> key) throws RenderingException {
+        delegate().key(key);
+        return this;
+    }
 
     @Override
     public Renderer list() throws RenderingException {
