@@ -108,7 +108,7 @@ public final class Mappings {
      *   <tr>
      *     <td>{@link Calendar}</td>
      *     <td>{@link CalendarValueRenderer}</td>
-     *     <td>uses {@link Calendar#getTime()} and delegates to {@link Renderer#value(Date)}</td>
+     *     <td>uses {@link Calendar#getTime()}</td>
      *   </tr>
      *   <tr>
      *     <td>{@link Date}</td>
@@ -128,7 +128,7 @@ public final class Mappings {
      *   <tr>
      *     <td>{@link InputStream}</td>
      *     <td>{@link InputStreamValueRenderer}</td>
-     *     <td>collects all bytes and delegates to {@link Renderer#value(byte[])}</td>
+     *     <td>collects all bytes</td>
      *   </tr>
      *   <tr>
      *     <td>{@link Integer}</td>
