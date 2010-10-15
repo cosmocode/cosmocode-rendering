@@ -21,7 +21,7 @@ package de.cosmocode.rendering;
  *
  * @author Willi Schoenborn
  */
-public final class CollectionsRendererReferenceValueTest extends AbstractRendererReferenceValueTest {
+public final class CollectionRendererReferenceValueTest extends AbstractRendererReferenceValueTest {
 
     @Override
     public Renderer unit() {

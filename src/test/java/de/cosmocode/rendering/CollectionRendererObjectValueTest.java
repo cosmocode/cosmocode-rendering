@@ -21,7 +21,7 @@ package de.cosmocode.rendering;
  *
  * @author Willi Schoenborn
  */
-public final class ConnectionRendererObjectValueTest extends AbstractRendererObjectValueTest {
+public final class CollectionRendererObjectValueTest extends AbstractRendererObjectValueTest {
 
     @Override
     public Renderer unit() {
