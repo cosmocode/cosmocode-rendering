@@ -16,6 +16,14 @@
 
 package de.cosmocode.rendering;
 
+import java.awt.color.CMMException;
+import java.lang.reflect.Array;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
+import com.google.common.collect.ImmutableSet;
+
 import de.cosmocode.commons.Enums;
 
 /**
@@ -24,16 +32,54 @@ import de.cosmocode.commons.Enums;
  * @since 1.1
  * @author Willi Schoenborn
  */
-public enum ArrayValueRenderer implements ValueRenderer<Object[]> {
+public enum ArrayValueRenderer implements ValueRenderer<Object> {
 
     INSTANCE;
     
+    private final Set<Class<?>> longOrLess = ImmutableSet.<Class<?>>of(
+        byte.class, short.class, char.class, int.class, long.class
+    );
+    
+    private final Set<Class<?>> doubleOrLess = ImmutableSet.<Class<?>>of(
+        float.class, double.class
+    );
+    
     @Override
-    public void render(Object[] value, Renderer renderer) throws RenderingException {
-        if (value == null) {
-            renderer.nullValue();
+    public void render(@Nullable Object array, Renderer r) throws RenderingException {
+        if (array == null) {
+            r.nullValue();
         } else {
-            renderer.value(value);
+            final Class<?> type = array.getClass();
+            assert type.isArray();
+            final Class<?> componentType = type.getComponentType();
+            
+            // to prevent auto-boxing
+            if (componentType.isPrimitive()) {
+                r.list();
+                renderPrimitiveArray(array, componentType, r);
+                r.endList();
+            } else {
+                r.value(Object[].class.cast(array));
+            }
+        }
+    }
+    
+    private void renderPrimitiveArray(Object array, Class<?> componentType, Renderer r) {
+        final int length = Array.getLength(array);
+        if (componentType == boolean.class) {
+            for (int i = 0; i < length; i++) {
+                r.value(Array.getBoolean(array, i));
+            }
+        } else if (longOrLess.contains(componentType)) {
+            for (int i = 0; i < length; i++) {
+                r.value(Array.getLong(array, i));
+            }
+        } else if (doubleOrLess.contains(componentType)) {
+            for (int i = 0; i < length; i++) {
+                r.value(Array.getDouble(array, i));
+            }
+        } else {
+            throw new AssertionError("Unknown primitive component type: " + componentType);
         }
     }
     
