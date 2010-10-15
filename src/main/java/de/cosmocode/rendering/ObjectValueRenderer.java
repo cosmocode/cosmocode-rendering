@@ -16,6 +16,8 @@
 
 package de.cosmocode.rendering;
 
+import javax.annotation.Nullable;
+
 import de.cosmocode.commons.Enums;
 
 /**
@@ -29,7 +31,7 @@ public enum ObjectValueRenderer implements ValueRenderer<Object> {
     INSTANCE;
     
     @Override
-    public void render(Object value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable Object value, Renderer renderer) throws RenderingException {
         if (value == null) {
             renderer.nullValue();
         } else {
