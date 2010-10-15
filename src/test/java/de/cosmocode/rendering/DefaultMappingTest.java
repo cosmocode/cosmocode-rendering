@@ -124,7 +124,7 @@ public final class DefaultMappingTest implements UnitProvider<Mapping> {
      */
     @Test
     public void booleanArray() {
-        Assert.assertNull(unit().find(boolean[].class));
+        Assert.assertSame(ArrayValueRenderer.INSTANCE, unit().find(boolean[].class));
     }
 
 }
