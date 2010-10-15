@@ -110,21 +110,19 @@ public final class DefaultMappingTest implements UnitProvider<Mapping> {
     }
     
     /**
-     * Tests with a byte array class.
+     * Tests with primitive array classes.
      */
     @Test
-    public void byteArray() {
+    public void primitiveArrays() {
         Assert.assertSame(ByteArrayValueRenderer.INSTANCE, unit().find(byte[].class));
-    }
-    
-    /**
-     * Tests with a boolean array class.
-     *
-     * @since
-     */
-    @Test
-    public void booleanArray() {
+        
         Assert.assertSame(ArrayValueRenderer.INSTANCE, unit().find(boolean[].class));
+        Assert.assertSame(ArrayValueRenderer.INSTANCE, unit().find(short[].class));
+        Assert.assertSame(ArrayValueRenderer.INSTANCE, unit().find(char[].class));
+        Assert.assertSame(ArrayValueRenderer.INSTANCE, unit().find(int[].class));
+        Assert.assertSame(ArrayValueRenderer.INSTANCE, unit().find(long[].class));
+        Assert.assertSame(ArrayValueRenderer.INSTANCE, unit().find(float[].class));
+        Assert.assertSame(ArrayValueRenderer.INSTANCE, unit().find(double[].class));
     }
 
 }
