@@ -21,7 +21,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.google.common.collect.ForwardingMap;
 
 import de.cosmocode.commons.reflect.Reflection;
@@ -48,29 +50,45 @@ public final class SuperClassMapping extends ForwardingMap<Class<?>, ValueRender
         return renderers;
     }
     
+    @SuppressWarnings("unchecked")
+    private <T> ValueRenderer<T> cast(ValueRenderer<?> renderer) {
+        return (ValueRenderer<T>) renderer;
+    }
+    
     @Override
     public <T> ValueRenderer<T> find(Class<? extends T> type) {
         Preconditions.checkNotNull(type, "Type");
         
-        if (type.isArray()) {
-            @SuppressWarnings("unchecked")
-            final ValueRenderer<T> renderer = (ValueRenderer<T>) renderers.get(Object[].class);
-            return renderer;
-        }
+        final ValueRenderer<?> perfectMatch = renderers.get(type);
         
-        for (Class<?> superType : Reflection.getAllSuperTypes(type)) {
-            if (Object.class.equals(superType)) continue;
-            LOG.trace("Considering {}", superType);
-            final ValueRenderer<?> found = renderers.get(superType);
-            if (found == null) continue;
-            @SuppressWarnings("unchecked")
-            final ValueRenderer<T> renderer = (ValueRenderer<T>) found;
-            return renderer;
+        if (perfectMatch == null) {
+            if (type.isArray()) {
+                return cast(renderers.get(Object[].class));
+            } else {
+                return findForSuperclass(type);
+            }
+        } else {
+            return cast(perfectMatch);
         }
-
-        @SuppressWarnings("unchecked")
-        final ValueRenderer<T> renderer = (ValueRenderer<T>) renderers.get(Object.class);
-        return renderer;
+    }
+    
+    private <T> ValueRenderer<T> findForSuperclass(Class<? extends T> type) {
+        for (Class<?> superType : Reflection.getAllSuperTypes(type)) {
+            if (Object.class.equals(superType)) {
+                // Object is special, we will handle it further below
+                continue;
+            } else {
+                LOG.trace("Considering {}", superType);
+                final ValueRenderer<?> found = renderers.get(superType);
+                if (found == null) {
+                    continue;
+                } else {
+                    return cast(found);
+                }
+            }
+        }
+        // fallback to Object renderer
+        return cast(renderers.get(Object.class));
     }
     
 }
