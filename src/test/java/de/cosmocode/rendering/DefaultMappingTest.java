@@ -95,8 +95,6 @@ public final class DefaultMappingTest implements UnitProvider<Mapping> {
     
     /**
      * Tests with a list class.
-     * 
-     * @since
      */
     @Test
     public void list() {
@@ -105,12 +103,28 @@ public final class DefaultMappingTest implements UnitProvider<Mapping> {
     
     /**
      * Tests with a set class.
-     * 
-     * @since
      */
     @Test
     public void set() {
         Assert.assertSame(IterableValueRenderer.INSTANCE, unit().find(EnumSet.class));
+    }
+    
+    /**
+     * Tests with a byte array class.
+     */
+    @Test
+    public void byteArray() {
+        Assert.assertSame(ByteArrayValueRenderer.INSTANCE, unit().find(byte[].class));
+    }
+    
+    /**
+     * Tests with a boolean array class.
+     *
+     * @since
+     */
+    @Test
+    public void booleanArray() {
+        Assert.assertNull(unit().find(boolean[].class));
     }
 
 }
