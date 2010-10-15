@@ -84,7 +84,8 @@ public abstract class AbstractRenderer implements Renderer {
      * the {@link AbstractRenderer#value(Object)} method.
      * 
      * <p>
-     *   This implementation uses {@link Object#toString()}.
+     *   This implementation tries to find a mapping capable of rendering
+     *   the given type using the current {@link Mapping}.
      * </p>
      * 
      * @param value the value of an unknown type, is never null
@@ -94,7 +95,9 @@ public abstract class AbstractRenderer implements Renderer {
     protected Renderer unknownValue(Object value) throws RenderingException {
         final Class<? extends Object> type = value.getClass();
         final ValueRenderer<Object> renderer = mapping.find(type);
-        Preconditions.checkNotNull(renderer, "No renderer registered for %s", type);
+        if (renderer == null) {
+            throw new RenderingException("No renderer registered for " + type);
+        }
         return value(value, renderer);
     }
     
