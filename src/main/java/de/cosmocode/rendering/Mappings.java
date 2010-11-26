@@ -52,6 +52,7 @@ public final class Mappings {
         builder.put(byte[].class, ByteArrayValueRenderer.INSTANCE);
         builder.put(Byte.class, ByteValueRenderer.INSTANCE);
         builder.put(Calendar.class, CalendarValueRenderer.INSTANCE);
+        builder.put(Class.class, ClassValueRenderer.INSTANCE);
         builder.put(Date.class, DateValueRenderer.INSTANCE);
         builder.put(Enum.class, EnumValueRenderer.INSTANCE);
         builder.put(Float.class, FloatValueRenderer.INSTANCE);
