@@ -16,7 +16,6 @@
 
 package de.cosmocode.rendering;
 
-import java.awt.color.CMMException;
 import java.lang.reflect.Array;
 import java.util.Set;
 
