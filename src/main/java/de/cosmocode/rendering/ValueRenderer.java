@@ -38,10 +38,10 @@ public interface ValueRenderer<T> {
      * </p>
      * 
      * @param value the value being added
-     * @param renderer the renderer receiving the value
+     * @param r the renderer receiving the value
      * @throws RenderingException if adding the value to the renderer failed
      * @throws NullPointerException if renderer is null
      */
-    void render(@Nullable T value, @Nonnull Renderer renderer) throws RenderingException;
+    void render(@Nullable T value, @Nonnull Renderer r) throws RenderingException;
     
 }

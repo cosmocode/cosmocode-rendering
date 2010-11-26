@@ -35,10 +35,10 @@ public interface Renderable {
      *   as key-value pairs.
      * </p>
      * 
-     * @param renderer the renderer being used
+     * @param r the renderer being used
      * @param level the current level
      * @throws RenderingException if any method on renderer failed
      */
-    void render(Renderer renderer, RenderingLevel level) throws RenderingException;
+    void render(Renderer r, RenderingLevel level) throws RenderingException;
     
 }
