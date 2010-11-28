@@ -29,11 +29,11 @@ public enum ObjectValueRenderer implements ValueRenderer<Object> {
     INSTANCE;
     
     @Override
-    public void render(@Nullable Object value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable Object value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
-            renderer.value(value.toString());
+            r.value(value.toString());
         }
     }
     

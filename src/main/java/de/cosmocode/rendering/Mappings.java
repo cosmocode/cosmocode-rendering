@@ -34,6 +34,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Table;
 
 /**
  * Utility class for {@link Mapping}s.
@@ -76,6 +77,7 @@ public final class Mappings {
         builder.put(Object.class, ObjectValueRenderer.INSTANCE);
         builder.put(short.class, ShortValueRenderer.INSTANCE);
         builder.put(Short.class, ShortValueRenderer.INSTANCE);
+        builder.put(Table.class, TableValueRenderer.INSTANCE);
 
         // concrete re-mapping to reduce iteration overhead
         builder.put(String.class, CharSequenceValueRenderer.INSTANCE);
@@ -208,6 +210,11 @@ public final class Mappings {
      *     <td>{@link Short} and {@code short}</td>
      *     <td>{@link ShortValueRenderer}</td>
      *     <td>delegates to {@link Renderer#value(long)}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Table}</td>
+     *     <td>{@link TableValueRenderer}</td>
+     *     <td>uses {@link Table#rowMap()} and delegates to {@link Renderer#value(Map)}</td>
      *   </tr>
      * </table>
      * 

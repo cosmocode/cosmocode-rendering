@@ -18,23 +18,24 @@ package de.cosmocode.rendering;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Table;
 
 /**
- * {@link Float} {@link ValueRenderer}.
- *
- * @since 1.1
+ * {@link Table} {@link ValueRenderer}.
+ * 
+ * @version 1.3
  * @author Willi Schoenborn
  */
-public enum FloatValueRenderer implements ValueRenderer<Float> {
+public enum TableValueRenderer implements ValueRenderer<Table<?, ?, ?>> {
 
     INSTANCE;
     
     @Override
-    public void render(@Nullable Float value, Renderer r) throws RenderingException {
+    public void render(@Nullable Table<?, ?, ?> value, Renderer r) throws RenderingException {
         if (value == null) {
             r.nullValue();
         } else {
-            r.value(value.doubleValue());
+            r.value(value.rowMap());
         }
     }
     

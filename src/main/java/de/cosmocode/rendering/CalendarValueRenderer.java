@@ -18,6 +18,8 @@ package de.cosmocode.rendering;
 
 import java.util.Calendar;
 
+import javax.annotation.Nullable;
+
 /**
  * Default {@link Calendar} {@link ValueRenderer}.
  *
@@ -29,11 +31,11 @@ public enum CalendarValueRenderer implements ValueRenderer<Calendar> {
     INSTANCE;
     
     @Override
-    public void render(Calendar value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable Calendar value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
-            renderer.value(value.getTime());
+            r.value(value.getTime());
         }
     }
     

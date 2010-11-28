@@ -16,6 +16,8 @@
 
 package de.cosmocode.rendering;
 
+import javax.annotation.Nullable;
+
 /**
  * Implementation for {@link Rendering#defaultValueRenderer()}.
  *
@@ -27,8 +29,8 @@ public enum DefaultValueRenderer implements ValueRenderer<Object> {
     INSTANCE;
     
     @Override
-    public void render(Object value, Renderer renderer) throws RenderingException {
-        renderer.value(value);
+    public void render(@Nullable Object value, Renderer r) throws RenderingException {
+        r.value(value);
     }
     
     @Override

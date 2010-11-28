@@ -18,6 +18,8 @@ package de.cosmocode.rendering;
 
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 /**
  * {@link Map} {@link ValueRenderer}.
  *
@@ -29,8 +31,8 @@ public enum MapValueRenderer implements ValueRenderer<Map<?, ?>> {
     INSTANCE;
     
     @Override
-    public void render(Map<?, ?> value, Renderer renderer) throws RenderingException {
-        renderer.value(value);
+    public void render(@Nullable Map<?, ?> value, Renderer r) throws RenderingException {
+        r.value(value);
     }
     
     @Override

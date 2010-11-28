@@ -16,6 +16,8 @@
 
 package de.cosmocode.rendering;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Multimap;
 
 /**
@@ -29,11 +31,11 @@ public enum MultimapValueRenderer implements ValueRenderer<Multimap<?, ?>> {
     INSTANCE;
     
     @Override
-    public void render(Multimap<?, ?> value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable Multimap<?, ?> value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
-            renderer.value(value.asMap());
+            r.value(value.asMap());
         }
     }
     

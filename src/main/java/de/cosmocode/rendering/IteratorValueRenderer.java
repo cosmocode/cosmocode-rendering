@@ -18,6 +18,8 @@ package de.cosmocode.rendering;
 
 import java.util.Iterator;
 
+import javax.annotation.Nullable;
+
 /**
  * {@link Iterator} {@link ValueRenderer}.
  *
@@ -29,11 +31,11 @@ public enum IteratorValueRenderer implements ValueRenderer<Iterator<?>> {
     INSTANCE;
     
     @Override
-    public void render(Iterator<?> value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable Iterator<?> value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
-            renderer.value(value);
+            r.value(value);
         }
     }
     

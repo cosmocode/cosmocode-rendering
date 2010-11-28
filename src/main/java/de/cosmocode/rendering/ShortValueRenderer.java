@@ -16,6 +16,8 @@
 
 package de.cosmocode.rendering;
 
+import javax.annotation.Nullable;
+
 
 /**
  * {@link Short} {@link ValueRenderer}.
@@ -28,11 +30,11 @@ public enum ShortValueRenderer implements ValueRenderer<Short> {
     INSTANCE;
     
     @Override
-    public void render(Short value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable Short value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
-            renderer.value(value.longValue());
+            r.value(value.longValue());
         }
     }
     

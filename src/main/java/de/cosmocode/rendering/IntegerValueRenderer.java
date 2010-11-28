@@ -16,6 +16,7 @@
 
 package de.cosmocode.rendering;
 
+import javax.annotation.Nullable;
 
 /**
  * {@link Integer} {@link ValueRenderer}.
@@ -28,11 +29,11 @@ public enum IntegerValueRenderer implements ValueRenderer<Integer> {
     INSTANCE;
     
     @Override
-    public void render(Integer value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable Integer value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
-            renderer.value(value.longValue());
+            r.value(value.longValue());
         }
     }
     

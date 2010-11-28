@@ -18,6 +18,8 @@ package de.cosmocode.rendering;
 
 import java.util.Date;
 
+import javax.annotation.Nullable;
+
 /**
  * Default {@link Date} {@link ValueRenderer}.
  *
@@ -29,11 +31,11 @@ public enum DateValueRenderer implements ValueRenderer<Date> {
     INSTANCE;
     
     @Override
-    public void render(Date value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable Date value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
-            renderer.value(value.getTime() / 1000); 
+            r.value(value.getTime() / 1000); 
         }
     }
     

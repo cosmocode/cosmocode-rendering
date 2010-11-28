@@ -16,6 +16,8 @@
 
 package de.cosmocode.rendering;
 
+import javax.annotation.Nullable;
+
 
 /**
  * Default {@link Enum} {@link ValueRenderer}.
@@ -28,11 +30,11 @@ public enum EnumValueRenderer implements ValueRenderer<Enum<?>> {
     INSTANCE;
     
     @Override
-    public void render(Enum<?> value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable Enum<?> value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
-            renderer.value(value.name()); 
+            r.value(value.name()); 
         }
     }
     
