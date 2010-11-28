@@ -72,14 +72,6 @@ public abstract class AbstractRenderer implements Renderer {
             return nullValue();
         } else if (value instanceof Renderable) {
             return value(Renderable.class.cast(value), defaultLevel());
-        } else if (value instanceof CharSequence) {
-            return value(CharSequence.class.cast(value));
-        } else if (value instanceof Boolean) {
-            return value(Boolean.class.cast(value).booleanValue());
-        } else if (value instanceof Long) {
-            return value(Long.class.cast(value).longValue());
-        } else if (value instanceof Double) {
-            return value(Double.class.cast(value).doubleValue());
         } else {
             return unknownValue(value);
         }

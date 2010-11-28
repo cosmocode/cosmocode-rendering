@@ -42,30 +42,43 @@ import com.google.common.collect.Multimap;
  * @author Willi Schoenborn
  */
 public final class Mappings {
-
+    
     private static final Mapping DEFAULT;
 
     static {
         final Builder<Class<?>, ValueRenderer<?>> builder = ImmutableMap.builder();
 
         builder.put(Object[].class, ArrayValueRenderer.INSTANCE);
+        builder.put(boolean.class, BooleanValueRenderer.INSTANCE);
+        builder.put(Boolean.class, BooleanValueRenderer.INSTANCE);
         builder.put(byte[].class, ByteArrayValueRenderer.INSTANCE);
         builder.put(Byte.class, ByteValueRenderer.INSTANCE);
         builder.put(Calendar.class, CalendarValueRenderer.INSTANCE);
+        builder.put(char.class, CharacterValueRenderer.INSTANCE);
+        builder.put(Character.class, CharacterValueRenderer.INSTANCE);
+        builder.put(CharSequence.class, CharSequenceValueRenderer.INSTANCE);
         builder.put(Class.class, ClassValueRenderer.INSTANCE);
         builder.put(Date.class, DateValueRenderer.INSTANCE);
+        builder.put(double.class, DoubleValueRenderer.INSTANCE);
+        builder.put(Double.class, DoubleValueRenderer.INSTANCE);
         builder.put(Enum.class, EnumValueRenderer.INSTANCE);
+        builder.put(float.class, FloatValueRenderer.INSTANCE);
         builder.put(Float.class, FloatValueRenderer.INSTANCE);
         builder.put(InputStream.class, InputStreamValueRenderer.INSTANCE);
+        builder.put(int.class, IntegerValueRenderer.INSTANCE);
         builder.put(Integer.class, IntegerValueRenderer.INSTANCE);
         builder.put(Iterable.class, IterableValueRenderer.INSTANCE);
         builder.put(Iterator.class, IteratorValueRenderer.INSTANCE);
+        builder.put(long.class, LongValueRenderer.INSTANCE);
+        builder.put(Long.class, LongValueRenderer.INSTANCE);
         builder.put(Map.class, MapValueRenderer.INSTANCE);
         builder.put(Multimap.class, MultimapValueRenderer.INSTANCE);
         builder.put(Object.class, ObjectValueRenderer.INSTANCE);
+        builder.put(short.class, ShortValueRenderer.INSTANCE);
         builder.put(Short.class, ShortValueRenderer.INSTANCE);
-        
-        // concrete re-mapping to reduce iteration overhead 
+
+        // concrete re-mapping to reduce iteration overhead
+        builder.put(String.class, CharSequenceValueRenderer.INSTANCE);
         builder.put(Collection.class, IterableValueRenderer.INSTANCE);
         builder.put(AbstractCollection.class, IterableValueRenderer.INSTANCE);
         builder.put(List.class, IterableValueRenderer.INSTANCE);
@@ -97,12 +110,17 @@ public final class Mappings {
      *     <td>delegates to {@link Renderer#value(Object...)}</td>
      *   </tr>
      *   <tr>
-     *     <td>{@code byte[]}</td>
-     *     <td>{@link ByteArrayValueRenderer}</td>
-     *     <td>produces an UTF-8 Base64 encoded String</td>
+     *     <td>{@link Boolean} and {@code boolean}</td>
+     *     <td>{@link BooleanValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(boolean)}</td>
      *   </tr>
      *   <tr>
-     *     <td>{@link Byte}</td>
+     *     <td>{@code byte[]}</td>
+     *     <td>{@link ByteArrayValueRenderer}</td>
+     *     <td>produces an UTF-8 Base64 encoded String and delegates to {@link Renderer#value(CharSequence)}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Byte} and {@code byte}</td>
      *     <td>{@link ByteValueRenderer}</td>
      *     <td>delegates to {@link Renderer#value(long)}</td>
      *   </tr>
@@ -112,9 +130,29 @@ public final class Mappings {
      *     <td>uses {@link Calendar#getTime()}</td>
      *   </tr>
      *   <tr>
+     *     <td>{@link Character} and {@code char}</td>
+     *     <td>{@link CharacterValueRenderer}</td>
+     *     <td>produces a string of length 1 and delegates to {@link Renderer#value(CharSequence)}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link CharSequence}</td>
+     *     <td>{@link CharacterValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(CharSequence)}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Class}</td>
+     *     <td>{@link ClassValueRenderer}</td>
+     *     <td>retrieves the FQCN and delegates to {@link Renderer#value(CharSequence)}</td>
+     *   </tr>
+     *   <tr>
      *     <td>{@link Date}</td>
      *     <td>{@link DateValueRenderer}</td>
      *     <td>renderes the unix timestamp (seconds)</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Double} and {@code double}</td>
+     *     <td>{@link DoubleValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(double)}</td>
      *   </tr>
      *   <tr>
      *     <td>{@link Enum}</td>
@@ -122,7 +160,7 @@ public final class Mappings {
      *     <td>uses {@link Enum#name()}</td>
      *   </tr>
      *   <tr>
-     *     <td>{@link Float}</td>
+     *     <td>{@link Float} and {@code float}</td>
      *     <td>{@link FloatValueRenderer}</td>
      *     <td>delegates to {@link Renderer#value(double)}</td>
      *   </tr>
@@ -132,7 +170,7 @@ public final class Mappings {
      *     <td>collects all bytes</td>
      *   </tr>
      *   <tr>
-     *     <td>{@link Integer}</td>
+     *     <td>{@link Integer} and {@code int}</td>
      *     <td>{@link IntegerValueRenderer}</td>
      *     <td>delegates to {@link Renderer#value(long)}</td>
      *   </tr>
@@ -145,6 +183,11 @@ public final class Mappings {
      *     <td>{@link Iterator}</td>
      *     <td>{@link IteratorValueRenderer}</td>
      *     <td>delegates to {@link Renderer#value(Iterator)}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Long} and {@code long}</td>
+     *     <td>{@link LongValueRenderer}</td>
+     *     <td>delegates to {@link Renderer#value(long)}</td>
      *   </tr>
      *   <tr>
      *     <td>{@link Map}</td>
@@ -162,7 +205,7 @@ public final class Mappings {
      *     <td>uses {@link Object#toString()}</td>
      *   </tr>
      *   <tr>
-     *     <td>{@code Short}</td>
+     *     <td>{@link Short} and {@code short}</td>
      *     <td>{@link ShortValueRenderer}</td>
      *     <td>delegates to {@link Renderer#value(long)}</td>
      *   </tr>
