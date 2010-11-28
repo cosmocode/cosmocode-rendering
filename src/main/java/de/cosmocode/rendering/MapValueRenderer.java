@@ -30,11 +30,7 @@ public enum MapValueRenderer implements ValueRenderer<Map<?, ?>> {
     
     @Override
     public void render(Map<?, ?> value, Renderer renderer) throws RenderingException {
-        if (value == null) {
-            renderer.nullValue();
-        } else {
-            renderer.value(value);
-        }
+        renderer.value(value);
     }
     
     @Override

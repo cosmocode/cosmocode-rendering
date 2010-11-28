@@ -29,11 +29,11 @@ public enum ByteValueRenderer implements ValueRenderer<Byte> {
     INSTANCE;
     
     @Override
-    public void render(Byte value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable Byte value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
-            renderer.value(value.longValue());
+            r.value(value.longValue());
         }
     }
     

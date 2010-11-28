@@ -16,6 +16,8 @@
 
 package de.cosmocode.rendering;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.codec.binary.Base64;
 
 import com.google.common.base.Charsets;
@@ -31,11 +33,11 @@ public enum ByteArrayValueRenderer implements ValueRenderer<byte[]> {
     INSTANCE;
     
     @Override
-    public void render(byte[] value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable byte[] value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
-            renderer.value(new String(Base64.encodeBase64(value), Charsets.UTF_8));
+            r.value(new String(Base64.encodeBase64(value), Charsets.UTF_8));
         }
     }
     

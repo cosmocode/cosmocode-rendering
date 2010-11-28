@@ -29,12 +29,8 @@ public enum IterableValueRenderer implements ValueRenderer<Iterable<?>> {
     INSTANCE;
     
     @Override
-    public void render(Iterable<?> value, Renderer renderer) throws RenderingException {
-        if (value == null) {
-            renderer.nullValue();
-        } else {
-            renderer.value(value);
-        }        
+    public void render(@Nullable Iterable<?> value, Renderer r) throws RenderingException {
+        r.value(value);
     }
     
     @Override

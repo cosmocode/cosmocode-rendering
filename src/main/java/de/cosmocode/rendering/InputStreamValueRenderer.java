@@ -35,12 +35,12 @@ public enum InputStreamValueRenderer implements ValueRenderer<InputStream> {
     INSTANCE;
     
     @Override
-    public void render(InputStream value, Renderer renderer) throws RenderingException {
+    public void render(@Nullable InputStream value, Renderer r) throws RenderingException {
         if (value == null) {
-            renderer.nullValue();
+            r.nullValue();
         } else {
             try {
-                renderer.value(ByteStreams.toByteArray(value));
+                r.value(ByteStreams.toByteArray(value));
             } catch (IOException e) {
                 throw new RenderingException(e);
             } finally {
