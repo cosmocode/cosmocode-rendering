@@ -20,6 +20,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 
@@ -58,12 +61,13 @@ public abstract class AbstractRenderer implements Renderer {
      * 
      * @return the default level, must not be null
      */
+    @Nonnull
     protected RenderingLevel defaultLevel() {
         return Rendering.maxLevel();
     }
     
     @Override
-    public Renderer value(Object value) throws RenderingException {
+    public Renderer value(@Nullable Object value) throws RenderingException {
         if (value == null) {
             return nullValue();
         } else if (value instanceof Renderable) {
@@ -251,7 +255,7 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public <T> Renderer value(Map<?, ? extends T> pairs, ValueRenderer<? super T> renderer) 
+    public <T> Renderer value(@Nullable Map<?, ? extends T> pairs, ValueRenderer<? super T> renderer) 
         throws RenderingException {
         Preconditions.checkNotNull(renderer, "Renderer");
         if (pairs == null) return nullValue();
@@ -259,7 +263,7 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public Renderer value(Renderable pairs, RenderingLevel level) throws RenderingException {
+    public Renderer value(@Nullable Renderable pairs, RenderingLevel level) throws RenderingException {
         Preconditions.checkNotNull(level, "Level");
         if (pairs == null) return nullValue();
         return map().pairs(pairs, level).endMap();
