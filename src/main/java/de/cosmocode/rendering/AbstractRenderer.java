@@ -39,7 +39,9 @@ public abstract class AbstractRenderer implements Renderer {
     
     @Override
     public Renderer key(Object key) throws RenderingException {
-        if (key instanceof Enum<?>) {
+        if (key instanceof CharSequence) {
+            return key(CharSequence.class.cast(key));
+        } else if (key instanceof Enum<?>) {
             return key(Enum.class.cast(key));
         } else {
             return key(key == null ? null : key.toString());
