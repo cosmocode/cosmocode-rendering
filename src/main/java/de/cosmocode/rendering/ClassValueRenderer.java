@@ -37,4 +37,9 @@ public enum ClassValueRenderer implements ValueRenderer<Class<?>> {
         }
     }
     
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+    
 }

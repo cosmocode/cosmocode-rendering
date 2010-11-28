@@ -16,7 +16,6 @@
 
 package de.cosmocode.rendering;
 
-import de.cosmocode.commons.Enums;
 
 /**
  * {@link Short} {@link ValueRenderer}.
@@ -39,7 +38,7 @@ public enum ShortValueRenderer implements ValueRenderer<Short> {
     
     @Override
     public String toString() {
-        return Enums.toString(this);
+        return getClass().getSimpleName();
     }
     
 }

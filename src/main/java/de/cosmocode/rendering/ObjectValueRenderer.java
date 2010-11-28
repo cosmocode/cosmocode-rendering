@@ -18,8 +18,6 @@ package de.cosmocode.rendering;
 
 import javax.annotation.Nullable;
 
-import de.cosmocode.commons.Enums;
-
 /**
  * Default {@link Object} {@link ValueRenderer}.
  *
@@ -41,7 +39,7 @@ public enum ObjectValueRenderer implements ValueRenderer<Object> {
     
     @Override
     public String toString() {
-        return Enums.toString(this);
+        return getClass().getSimpleName();
     }
     
 }

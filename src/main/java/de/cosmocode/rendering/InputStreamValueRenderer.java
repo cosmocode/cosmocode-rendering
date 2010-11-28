@@ -19,15 +19,15 @@ package de.cosmocode.rendering;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.annotation.Nullable;
+
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Closeables;
-
-import de.cosmocode.commons.Enums;
 
 /**
  * Default {@link InputStream} {@link ValueRenderer}.
  *
- * @since 
+ * @since 1.2
  * @author Willi Schoenborn
  */
 public enum InputStreamValueRenderer implements ValueRenderer<InputStream> {
@@ -51,7 +51,7 @@ public enum InputStreamValueRenderer implements ValueRenderer<InputStream> {
     
     @Override
     public String toString() {
-        return Enums.toString(this);
+        return getClass().getSimpleName();
     }
     
 }

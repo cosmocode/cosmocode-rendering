@@ -16,7 +16,7 @@
 
 package de.cosmocode.rendering;
 
-import de.cosmocode.commons.Enums;
+import javax.annotation.Nullable;
 
 /**
  * {@link Byte} {@link ValueRenderer}.
@@ -39,7 +39,7 @@ public enum ByteValueRenderer implements ValueRenderer<Byte> {
     
     @Override
     public String toString() {
-        return Enums.toString(this);
+        return getClass().getSimpleName();
     }
     
 }

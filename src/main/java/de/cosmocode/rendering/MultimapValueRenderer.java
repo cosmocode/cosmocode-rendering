@@ -18,8 +18,6 @@ package de.cosmocode.rendering;
 
 import com.google.common.collect.Multimap;
 
-import de.cosmocode.commons.Enums;
-
 /**
  * Default {@link Multimap} {@link ValueRenderer}.
  *
@@ -41,7 +39,7 @@ public enum MultimapValueRenderer implements ValueRenderer<Multimap<?, ?>> {
     
     @Override
     public String toString() {
-        return Enums.toString(this);
+        return getClass().getSimpleName();
     }
     
 }

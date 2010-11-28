@@ -18,8 +18,6 @@ package de.cosmocode.rendering;
 
 import java.util.Date;
 
-import de.cosmocode.commons.Enums;
-
 /**
  * Default {@link Date} {@link ValueRenderer}.
  *
@@ -41,7 +39,7 @@ public enum DateValueRenderer implements ValueRenderer<Date> {
     
     @Override
     public String toString() {
-        return Enums.toString(this);
+        return getClass().getSimpleName();
     }
     
 }

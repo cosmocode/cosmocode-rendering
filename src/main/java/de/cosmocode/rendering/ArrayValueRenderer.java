@@ -23,8 +23,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableSet;
 
-import de.cosmocode.commons.Enums;
-
 /**
  * {@link Object}[] {@link ValueRenderer}.
  *
@@ -84,7 +82,7 @@ public enum ArrayValueRenderer implements ValueRenderer<Object> {
     
     @Override
     public String toString() {
-        return Enums.toString(this);
+        return getClass().getSimpleName();
     }
     
 }
