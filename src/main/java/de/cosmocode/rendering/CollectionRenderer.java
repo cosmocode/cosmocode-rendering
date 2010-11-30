@@ -84,7 +84,7 @@ public final class CollectionRenderer extends AbstractRenderer {
     @Override
     public Renderer list() throws RenderingException {
         if (Mode.LIST.isAllowedAfter(mode)) {
-            stack.push(Lists.newArrayList());
+            stack.push(Lists.newLinkedList());
             mode = Mode.LIST;
             return this;
         } else {
