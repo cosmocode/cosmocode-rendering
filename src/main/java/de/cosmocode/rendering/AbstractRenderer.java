@@ -104,7 +104,7 @@ public abstract class AbstractRenderer implements Renderer {
         Preconditions.checkNotNull(renderer, "Renderer");
         renderer.render(value, this);
         return this;
-    };
+    }
     
     @Override
     public Renderer values(Object... values) throws RenderingException {
