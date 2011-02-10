@@ -27,6 +27,27 @@ public final class Rendering {
     private Rendering() {
         
     }
+
+    /**
+     * Provides a {@link RenderingLevel} which is less than every other
+     * level but equals to itself.
+     *
+     * <p>
+     *   The returned level is interoperable with other implementations.
+     * </p>
+     *
+     * <p>
+     *   <strong>Note</strong>: In contrast to the name, it's still possible
+     *   to write a custom level implementation which is less than the returned
+     *   level. Beware that compare methods are not necessarily symmetric.
+     * </p>
+     *
+     * @since 1.3
+     * @return a rendering level which is less than every other level
+     */
+    public static RenderingLevel minLevel() {
+        return MinRenderingLevel.INSTANCE;
+    }
     
     /**
      * Provides a {@link RenderingLevel} which is greater than every other
