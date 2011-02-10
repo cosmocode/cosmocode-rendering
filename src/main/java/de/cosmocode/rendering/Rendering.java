@@ -29,7 +29,7 @@ public final class Rendering {
     }
     
     /**
-     * Creates a {@link RenderingLevel} which is greater than everyother
+     * Provides a {@link RenderingLevel} which is greater than every other
      * level but equals to itself.
      * 
      * <p>
@@ -39,7 +39,7 @@ public final class Rendering {
      * <p>
      *   <strong>Note</strong>: In contrast to the name, it's still possible
      *   to write a custom level implementation which is greater than the returned
-     *   level. Beware that all compare methods are not necessarily symetric.
+     *   level. Beware that compare methods are not necessarily symmetric.
      * </p>
      * 
      * @return a rendering level which is greater than every other level
@@ -47,7 +47,7 @@ public final class Rendering {
     public static RenderingLevel maxLevel() {
         return MaxRenderingLevel.INSTANCE;
     }
-
+    
     /**
      * Uses the specified int to create a rendering level.
      * 
