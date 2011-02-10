@@ -17,6 +17,7 @@
 package de.cosmocode.rendering;
 
 import java.io.InputStream;
+import java.sql.ResultSet;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.AbstractMap;
@@ -75,6 +76,7 @@ public final class Mappings {
         builder.put(Map.class, MapValueRenderer.INSTANCE);
         builder.put(Multimap.class, MultimapValueRenderer.INSTANCE);
         builder.put(Object.class, ObjectValueRenderer.INSTANCE);
+        builder.put(ResultSet.class, ResultSetValueRenderer.INSTANCE);
         builder.put(short.class, ShortValueRenderer.INSTANCE);
         builder.put(Short.class, ShortValueRenderer.INSTANCE);
         builder.put(Table.class, TableValueRenderer.INSTANCE);
@@ -205,6 +207,11 @@ public final class Mappings {
      *     <td>{@link Object}</td>
      *     <td>{@link ObjectValueRenderer}</td>
      *     <td>uses {@link Object#toString()}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link ResultSet}</td>
+     *     <td>{@link ResultSetValueRenderer}</td>
+     *     <td>creates a map containing meta data and a list of rows</td>
      *   </tr>
      *   <tr>
      *     <td>{@link Short} and {@code short}</td>
