@@ -107,7 +107,7 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public Renderer values(Object... values) throws RenderingException {
+    public <T> Renderer values(T... values) throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
         return values(Iterators.forArray(values));
     }
@@ -164,7 +164,7 @@ public abstract class AbstractRenderer implements Renderer {
     }
     
     @Override
-    public Renderer value(Object... values) throws RenderingException {
+    public <T> Renderer value(T... values) throws RenderingException {
         Preconditions.checkNotNull(values, "Values");
         return list().values(values).endList();
     }

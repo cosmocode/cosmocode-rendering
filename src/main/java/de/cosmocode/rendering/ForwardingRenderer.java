@@ -184,7 +184,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public Renderer value(Object... values) throws RenderingException {
+    public <T> Renderer value(T... values) throws RenderingException {
         delegate().value(values);
         return this;
     }
@@ -246,7 +246,7 @@ public abstract class ForwardingRenderer extends ForwardingObject implements Ren
     }
 
     @Override
-    public Renderer values(Object... values) throws RenderingException {
+    public <T> Renderer values(T... values) throws RenderingException {
         delegate().values(values);
         return this;
     }
