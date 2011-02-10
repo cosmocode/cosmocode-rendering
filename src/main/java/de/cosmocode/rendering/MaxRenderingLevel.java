@@ -43,6 +43,7 @@ enum MaxRenderingLevel implements RenderingLevel {
     
     @Override
     public boolean ge(RenderingLevel level) throws ClassCastException {
+        // this is special
         return true;
     }
     
