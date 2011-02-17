@@ -57,17 +57,23 @@ public final class SuperClassMapping extends ForwardingMap<Class<?>, ValueRender
     public <T> ValueRenderer<T> find(Class<? extends T> type) {
         Preconditions.checkNotNull(type, "Type");
         
-        final ValueRenderer<?> perfectMatch = renderers.get(type);
-        
-        if (perfectMatch == null) {
-            if (type.isArray()) {
-                return cast(renderers.get(Object[].class));
-            } else {
-                return findForSuperclass(type);
-            }
+        if (Renderable.class.isAssignableFrom(type)) {
+            // implementing Renderable is the prefered shortcut
+            return cast(renderers.get(Renderable.class));
         } else {
-            return cast(perfectMatch);
+            final ValueRenderer<?> perfectMatch = renderers.get(type);
+            
+            if (perfectMatch == null) {
+                if (type.isArray()) {
+                    return cast(renderers.get(Object[].class));
+                } else {
+                    return findForSuperclass(type);
+                }
+            } else {
+                return cast(perfectMatch);
+            }
         }
+        
     }
     
     private <T> ValueRenderer<T> findForSuperclass(Class<? extends T> type) {

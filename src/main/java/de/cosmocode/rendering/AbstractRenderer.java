@@ -59,8 +59,10 @@ public abstract class AbstractRenderer implements Renderer {
     /**
      * Provides the default {@link RenderingLevel}.
      * 
+     * @deprecated won't be used anymore
      * @return the default level, must not be null
      */
+    @Deprecated
     @Nonnull
     protected RenderingLevel defaultLevel() {
         return Rendering.maxLevel();
@@ -70,8 +72,6 @@ public abstract class AbstractRenderer implements Renderer {
     public Renderer value(@Nullable Object value) throws RenderingException {
         if (value == null) {
             return nullValue();
-        } else if (value instanceof Renderable) {
-            return value(Renderable.class.cast(value), defaultLevel());
         } else {
             return unknownValue(value);
         }
@@ -93,10 +93,14 @@ public abstract class AbstractRenderer implements Renderer {
     protected Renderer unknownValue(Object value) throws RenderingException {
         final Class<? extends Object> type = value.getClass();
         final ValueRenderer<Object> renderer = mapping.find(type);
+        checkPresent(renderer, type);
+        return value(value, renderer);
+    }
+    
+    private void checkPresent(ValueRenderer<Object> renderer, Class<?> type) {
         if (renderer == null) {
             throw new RenderingException("No renderer registered for " + type);
         }
-        return value(value, renderer);
     }
     
     @Override

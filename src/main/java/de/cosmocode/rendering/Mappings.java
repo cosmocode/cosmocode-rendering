@@ -76,6 +76,7 @@ public final class Mappings {
         builder.put(Map.class, MapValueRenderer.INSTANCE);
         builder.put(Multimap.class, MultimapValueRenderer.INSTANCE);
         builder.put(Object.class, ObjectValueRenderer.INSTANCE);
+        builder.put(Renderable.class, RenderableValueRenderer.INSTANCE);
         builder.put(ResultSet.class, ResultSetValueRenderer.INSTANCE);
         builder.put(short.class, ShortValueRenderer.INSTANCE);
         builder.put(Short.class, ShortValueRenderer.INSTANCE);
@@ -207,6 +208,11 @@ public final class Mappings {
      *     <td>{@link Object}</td>
      *     <td>{@link ObjectValueRenderer}</td>
      *     <td>uses {@link Object#toString()}</td>
+     *   </tr>
+     *   <tr>
+     *     <td>{@link Renderable}</td>
+     *     <td>{@link RenderableValueRenderer}</td>
+     *     <td>delegates to {@link Renderable#render(Renderer, RenderingLevel)} using {@link Rendering#maxLevel()}</td>
      *   </tr>
      *   <tr>
      *     <td>{@link ResultSet}</td>
