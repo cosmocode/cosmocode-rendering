@@ -42,8 +42,7 @@ public final class SortedMapping extends ForwardingSortedMap<Class<?>, ValueRend
     }
     
     public SortedMapping(SortedMap<Class<?>, ValueRenderer<?>> renderers) {
-        Preconditions.checkNotNull(renderers, "Renderers");
-        this.renderers = new ConstrainedSortedMap<Class<?>, ValueRenderer<?>>(renderers, MappingConstraint.INSTANCE);
+        this.renderers = Preconditions.checkNotNull(renderers, "Renderers");
     }
     
     @Override

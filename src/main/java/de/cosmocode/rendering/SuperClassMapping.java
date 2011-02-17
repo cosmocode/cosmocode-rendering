@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingMap;
-import com.google.common.collect.MapConstraints;
 
 import de.cosmocode.commons.reflect.Reflection;
 
@@ -41,8 +40,7 @@ public final class SuperClassMapping extends ForwardingMap<Class<?>, ValueRender
     private final Map<Class<?>, ValueRenderer<?>> renderers;
     
     public SuperClassMapping(Map<Class<?>, ValueRenderer<?>> renderers) {
-        Preconditions.checkNotNull(renderers, "Renderers");
-        this.renderers = MapConstraints.constrainedMap(renderers, MappingConstraint.INSTANCE);
+        this.renderers = Preconditions.checkNotNull(renderers, "Renderers");
     }
 
     @Override
