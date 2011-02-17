@@ -83,13 +83,10 @@ public final class CollectionRenderer extends AbstractRenderer {
     
     @Override
     public Renderer list() throws RenderingException {
-        if (Mode.LIST.isAllowedAfter(mode)) {
-            stack.push(Lists.newLinkedList());
-            mode = Mode.LIST;
-            return this;
-        } else {
-            throw new RenderingException(String.format("%s is not allowed after %s", Mode.LIST, mode));
-        }
+        mode.checkAllowed(Mode.LIST);
+        stack.push(Lists.newLinkedList());
+        mode = Mode.LIST;
+        return this;
     }
     
     @Override
@@ -118,13 +115,10 @@ public final class CollectionRenderer extends AbstractRenderer {
     
     @Override
     public Renderer map() throws RenderingException {
-        if (Mode.MAP.isAllowedAfter(mode)) {
-            stack.push(new LinkedMap());
-            mode = Mode.MAP;
-            return this;
-        } else {
-            throw new RenderingException(String.format("%s is not allowed after %s", Mode.MAP, mode));
-        }
+        mode.checkAllowed(Mode.MAP);
+        stack.push(new LinkedMap());
+        mode = Mode.MAP;
+        return this;
     }
     
     @Override
@@ -153,13 +147,10 @@ public final class CollectionRenderer extends AbstractRenderer {
     
     @Override
     public Renderer key(CharSequence key) throws RenderingException {
-        if (Mode.KEY.isAllowedAfter(mode)) {
-            peekMap().put(key == null ? null : key.toString(), null);
-            mode = Mode.KEY;
-            return this;
-        } else {
-            throw new RenderingException(String.format("%s is not allowed after %s", Mode.KEY, mode));
-        }
+        mode.checkAllowed(Mode.KEY);
+        peekMap().put(key == null ? null : key.toString(), null);
+        mode = Mode.KEY;
+        return this;
     }
     
     @Override
