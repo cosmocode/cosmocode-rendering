@@ -22,7 +22,6 @@ import java.io.InputStream;
 import javax.annotation.Nullable;
 
 import com.google.common.io.ByteStreams;
-import com.google.common.io.Closeables;
 
 /**
  * Default {@link InputStream} {@link ValueRenderer}.
@@ -44,7 +43,11 @@ public enum InputStreamValueRenderer implements ValueRenderer<InputStream> {
             } catch (IOException e) {
                 throw new RenderingException(e);
             } finally {
-                Closeables.closeQuietly(value);
+                try {
+                    value.close();
+                } catch (IOException e) {
+                    throw new RenderingException(e);
+                }
             }
         }
     }
