@@ -26,7 +26,7 @@ public enum Mode {
     INITIAL {
         
         @Override
-        public boolean isAllowedAfter(Mode mode) {
+        public boolean isAllowedAfter(Mode current) {
             return false;
         }
         
@@ -35,8 +35,8 @@ public enum Mode {
     KEY {
         
         @Override
-        public boolean isAllowedAfter(Mode mode) {
-            return mode == MAP;
+        public boolean isAllowedAfter(Mode current) {
+            return current == MAP;
         }
         
     },
@@ -44,8 +44,8 @@ public enum Mode {
     LIST {
         
         @Override
-        public boolean isAllowedAfter(Mode mode) {
-            return mode == INITIAL || mode == KEY || mode == LIST;
+        public boolean isAllowedAfter(Mode current) {
+            return current == INITIAL || current == KEY || current == LIST;
         }
         
     }, 
@@ -53,8 +53,8 @@ public enum Mode {
     MAP {
         
         @Override
-        public boolean isAllowedAfter(Mode mode) {
-            return mode == INITIAL || mode == KEY || mode == LIST;
+        public boolean isAllowedAfter(Mode current) {
+            return current == INITIAL || current == KEY || current == LIST;
         }
         
     }, 
@@ -62,8 +62,8 @@ public enum Mode {
     DONE {
       
         @Override
-        public boolean isAllowedAfter(Mode mode) {
-            return mode == LIST || mode == MAP;
+        public boolean isAllowedAfter(Mode current) {
+            return current == LIST || current == MAP;
         }
         
     };
@@ -72,9 +72,24 @@ public enum Mode {
      * Checks whether this mode is allowed to be used after
      * the specified mode.
      * 
-     * @param mode the current mode
+     * @param current the current mode
      * @return true if this mode is allowed to be used after the specified mode
      */
-    public abstract boolean isAllowedAfter(Mode mode);
+    public abstract boolean isAllowedAfter(Mode current);
+    
+    /**
+     * Checks whether the supplied mode is allowed after this mode.
+     *
+     * @since 1.3
+     * @param next the next mode
+     * @throws RenderingException if next is not allowed after this
+     */
+    public void checkAllowed(Mode next) {
+        if (next.isAllowedAfter(this)) {
+            return;
+        } else {
+            throw new RenderingException(String.format("%s is not allowed after %s", next, this));
+        }
+    }
     
 }
