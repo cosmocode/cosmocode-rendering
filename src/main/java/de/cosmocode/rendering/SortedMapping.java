@@ -28,9 +28,11 @@ import de.cosmocode.commons.reflect.Reflection;
  * {@link Mapping} implementation based on a {@link SortedMap} which assumes the underlying
  * map using a hierarchy based sorting as provided by {@link Reflection#orderByHierarchy()}.
  *
+ * @deprecated use {@link SuperClassMapping}
  * @since 1.1
  * @author Willi Schoenborn
  */
+@Deprecated
 public final class SortedMapping extends ForwardingSortedMap<Class<?>, ValueRenderer<?>> implements Mapping {
 
     private final SortedMap<Class<?>, ValueRenderer<?>> renderers;
