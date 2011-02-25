@@ -25,6 +25,6 @@ import com.google.common.base.Function;
  * @author Willi Schoenborn
  * @param <T> generic input type
  */
-interface KeyRenderer<T> extends Function<T, CharSequence> {
+public interface KeyRenderer<T> extends Function<T, CharSequence> {
     
 }

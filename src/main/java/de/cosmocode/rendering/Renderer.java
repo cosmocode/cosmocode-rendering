@@ -111,15 +111,16 @@ public interface Renderer extends Builder<Object> {
      * @throws RenderingException if there is no map to end at the current position
      */
     Renderer endMap() throws RenderingException;
-    
+
     /**
-     * Adds the specified key.
+     * Changes the {@link Class} to {@link KeyRenderer} mapping of this
+     * {@link Renderer}.
      * 
-     * @param key the key being added
-     * @return this
-     * @throws RenderingException if currently not inside a map
+     * @since 1.3
+     * @param keyMapping the new mapping
+     * @throws NullPointerException if mapping is null
      */
-    Renderer key(@Nullable CharSequence key) throws RenderingException;
+    void setKeyMapping(@Nonnull KeyMapping keyMapping);
     
     /**
      * Adds the specified key.
@@ -133,13 +134,12 @@ public interface Renderer extends Builder<Object> {
     /**
      * Adds the specified key.
      * 
-     * @since 1.2
-     * @param key the key to be added
+     * @param key the key being added
      * @return this
      * @throws RenderingException if currently not inside a map
      */
-    Renderer key(@Nullable Enum<?> key) throws RenderingException;
-
+    Renderer key(@Nullable CharSequence key) throws RenderingException;
+    
     /**
      * Changes the {@link Class} to {@link ValueRenderer} mapping of this
      * {@link Renderer}.
@@ -252,6 +252,18 @@ public interface Renderer extends Builder<Object> {
         throws RenderingException;
     
     /**
+     * Adds the specified values using the given level.
+     * 
+     * @param values the values being added
+     * @param level the value being passed to {@link Renderable#render(Renderer, RenderingLevel)}
+     * @return this
+     * @throws RenderingException if no values are allowed at the current position
+     * @throws NullPointerException if values or level is null
+     */
+    Renderer values(@Nonnull Iterable<? extends Renderable> values, @Nonnull RenderingLevel level)
+        throws RenderingException;
+
+    /**
      * Adds the specified values.
      * 
      * @param values the values being added
@@ -273,18 +285,6 @@ public interface Renderer extends Builder<Object> {
      * @throws NullPointerException if values or renderer is null
      */
     <T> Renderer values(@Nonnull Iterator<? extends T> values, @Nonnull ValueRenderer<? super T> renderer) 
-        throws RenderingException;
-    
-    /**
-     * Adds the specified values using the given level.
-     * 
-     * @param values the values being added
-     * @param level the value being passed to {@link Renderable#render(Renderer, RenderingLevel)}
-     * @return this
-     * @throws RenderingException if no values are allowed at the current position
-     * @throws NullPointerException if values or level is null
-     */
-    Renderer values(@Nonnull Iterable<? extends Renderable> values, @Nonnull RenderingLevel level)
         throws RenderingException;
     
     /**

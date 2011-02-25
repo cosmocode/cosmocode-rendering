@@ -32,9 +32,17 @@ import com.google.common.collect.Iterators;
  * @author Willi Schoenborn
  */
 public abstract class AbstractRenderer implements Renderer {
+    
+    private final CharSequence nullKey = null;
 
+    private KeyMapping keyMapping = KeyMappings.defaultMapping();
     private Mapping mapping = Mappings.defaultMapping();
 
+    @Override
+    public void setKeyMapping(KeyMapping keyMapping) {
+        this.keyMapping = Preconditions.checkNotNull(keyMapping, "KeyMapping");
+    }
+    
     @Override
     public void setMapping(Mapping mapping) {
         this.mapping = Preconditions.checkNotNull(mapping, "Mapping");
@@ -42,18 +50,37 @@ public abstract class AbstractRenderer implements Renderer {
     
     @Override
     public Renderer key(Object key) throws RenderingException {
-        if (key instanceof CharSequence) {
-            return key(CharSequence.class.cast(key));
-        } else if (key instanceof Enum<?>) {
-            return key(Enum.class.cast(key));
+        return unknownKey(key);
+    }
+
+    /**
+     * A hook allowing sub classes to add behaviour to 
+     * the {@link AbstractRenderer#key(Object)} method.
+     * 
+     * <p>
+     *   This implementation tries to find a mapping capable of rendering
+     *   the given type using the current {@link KeyMapping}.
+     * </p>
+     * 
+     * @param key the key of an unknown type
+     * @return this
+     * @throws RenderingException if rendering failed
+     */
+    protected Renderer unknownKey(@Nullable Object key) throws RenderingException {
+        if (key == null) {
+            return key(nullKey);
         } else {
-            return key(key == null ? null : key.toString());
+            final Class<? extends Object> type = key.getClass();
+            final KeyRenderer<Object> renderer = keyMapping.find(type);
+            checkPresent(renderer, type);
+            return key(renderer.apply(key));
         }
     }
     
-    @Override
-    public Renderer key(Enum<?> key) throws RenderingException {
-        return key(key == null ? null : key.name());
+    private void checkPresent(KeyRenderer<Object> renderer, Class<?> type) {
+        if (renderer == null) {
+            throw new RenderingException("No renderer registered for " + type);
+        }
     }
 
     /**

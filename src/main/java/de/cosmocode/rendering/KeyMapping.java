@@ -28,7 +28,7 @@ import com.ibm.icu.impl.ICUService.Key;
  * @since 1.3
  * @author Willi Schoenborn
  */
-interface KeyMapping extends Map<Class<?>, KeyRenderer<?>> {
+public interface KeyMapping extends Map<Class<?>, KeyRenderer<?>> {
 
     /**
      * Finds a {@link KeyRenderer} capable of rendering the given type.
