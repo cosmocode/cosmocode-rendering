@@ -26,6 +26,6 @@ import java.util.Map;
 public interface MapRenderer extends Renderer {
 
     @Override
-    Map<String, Object> build() throws RenderingException;
+    Map<CharSequence, Object> build() throws RenderingException;
     
 }

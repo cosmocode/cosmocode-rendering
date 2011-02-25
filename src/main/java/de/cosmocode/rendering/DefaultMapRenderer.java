@@ -39,13 +39,16 @@ public final class DefaultMapRenderer extends ForwardingRenderer implements MapR
         return renderer;
     }
     
+    @SuppressWarnings("unchecked")
+    private Map<CharSequence, Object> cast(Object map) {
+        return Map.class.cast(map);
+    }
+    
     @Override
-    public Map<String, Object> build() throws RenderingException {
-        final Object built = super.build();
-        assert built instanceof Map<?, ?> : String.format("Expected map, but was %s", built);
-        @SuppressWarnings("unchecked")
-        final Map<String, Object> map = Map.class.cast(built);
-        return map;
+    public Map<CharSequence, Object> build() throws RenderingException {
+        final Object map = super.build();
+        Preconditions.checkState(map instanceof Map<?, ?>, "Expected map, but was %s", map);
+        return cast(map);
     }
 
 }
