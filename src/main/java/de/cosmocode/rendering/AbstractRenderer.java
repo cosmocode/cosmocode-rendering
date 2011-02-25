@@ -70,11 +70,7 @@ public abstract class AbstractRenderer implements Renderer {
     
     @Override
     public Renderer value(@Nullable Object value) throws RenderingException {
-        if (value == null) {
-            return nullValue();
-        } else {
-            return unknownValue(value);
-        }
+        return unknownValue(value);
     }
 
     /**
@@ -86,15 +82,19 @@ public abstract class AbstractRenderer implements Renderer {
      *   the given type using the current {@link Mapping}.
      * </p>
      * 
-     * @param value the value of an unknown type, is never null
+     * @param value the value of an unknown type
      * @return this
      * @throws RenderingException if rendering failed
      */
-    protected Renderer unknownValue(Object value) throws RenderingException {
-        final Class<? extends Object> type = value.getClass();
-        final ValueRenderer<Object> renderer = mapping.find(type);
-        checkPresent(renderer, type);
-        return value(value, renderer);
+    protected Renderer unknownValue(@Nullable Object value) throws RenderingException {
+        if (value == null) {
+            return nullValue();
+        } else {
+            final Class<? extends Object> type = value.getClass();
+            final ValueRenderer<Object> renderer = mapping.find(type);
+            checkPresent(renderer, type);
+            return value(value, renderer);
+        }
     }
     
     private void checkPresent(ValueRenderer<Object> renderer, Class<?> type) {
