@@ -219,13 +219,13 @@ public interface Renderer extends Builder<Object> {
     /**
      * Adds the specified values.
      * 
-     * @param <E> generic element type
+     * @param <T> generic element type
      * @param values the values being added
      * @return this
      * @throws RenderingException if no values are allowed at the current position
      * @throws NullPointerException if values is null
      */
-    <E> Renderer values(@Nonnull E... values) throws RenderingException;
+    <T> Renderer values(@Nonnull T... values) throws RenderingException;
 
     /**
      * Adds the specified values.
@@ -303,13 +303,13 @@ public interface Renderer extends Builder<Object> {
      * Add the specified values as a list. This is equivalent to:
      * {@code list().values(values).endList()}.
      * 
-     * @param <E> generic element type
+     * @param <T> generic element type
      * @param values the values being added
      * @return this
      * @throws RenderingException if list is not allowed at the current position.
      * @throws NullPointerException if values is null
      */
-    <E> Renderer value(@Nonnull E... values) throws RenderingException;
+    <T> Renderer value(@Nonnull T... values) throws RenderingException;
 
     /**
      * Add the specified values as a list. This is equivalent to:
