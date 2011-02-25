@@ -26,7 +26,7 @@ import de.cosmocode.commons.Strings;
  * @since 1.3
  * @author Willi Schoenborn
  */
-enum ObjectKeyRenderer implements KeyRenderer<Object> {
+public enum ObjectKeyRenderer implements KeyRenderer<Object> {
 
     INSTANCE;
     

@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
  * @since 1.3
  * @author Willi Schoenborn
  */
-enum EnumKeyRenderer implements KeyRenderer<Enum<?>> {
+public enum EnumKeyRenderer implements KeyRenderer<Enum<?>> {
 
     INSTANCE;
     
